@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Experiment {
+  id                Int                        @id @unique @default(autoincrement())
+  createdAt         DateTime?                  @default(now())
+  endAt             DateTime?                  @default(now())
+  experimentDetails ExperimentDetails[]
+  dataSetDetails    ExperimentDataSetDetails[]
+  experimentSteps   ExperimentStep[]
+  modelSchemas      ModelSchema[]
+  modelLayers       ModelLayer[]
+}
+
+model ExperimentDetails {
+  id            Int        @id @unique @default(autoincrement())
+  createdAt     DateTime?  @default(now())
+  experiment_id Int
+  layers        String
+  activation    String
+  optimizer     String
+  regularizer   String     @default("")
+  loss          String
+  epochs        Int
+  batch_size    Int
+  units_range   String
+  Expirement    Experiment @relation(fields: [experiment_id], references: [id])
+}
+
+model ExperimentDataSetDetails {
+  id                  Int        @id @unique @default(autoincrement())
+  createdAt           DateTime?  @default(now())
+  experiment_id       Int
+  duration            Float
+  labels              String
+  argumentation_types String
+  af_type             String
+  Expirement          Experiment @relation(fields: [experiment_id], references: [id])
+}
+
+model ExperimentStep {
+  id            Int       @id @unique @default(autoincrement())
+  createdAt     DateTime? @default(now())
+  experiment_id Int
+
+  step                Int
+  fingerprint         String
+  record_accuracy     Float  @default(0)
+  validation_accuracy Float  @default(0)
+  accuracy_delta      Float  @default(0)
+  epochs              Int    @default(0)
+
+  Expirement   Experiment    @relation(fields: [experiment_id], references: [id])
+  modelSchemas ModelSchema[]
+  modelLayers  ModelLayer[]
+}
+
+model ModelSchema {
+  id                 Int       @id @unique @default(autoincrement())
+  createdAt          DateTime? @default(now())
+  experiment_id      Int
+  experiment_step_id Int
+  optimizer          String
+  loss               String
+
+  Expirement     Experiment     @relation(fields: [experiment_id], references: [id])
+  ExperimentStep ExperimentStep @relation(fields: [experiment_step_id], references: [id])
+  modelLayers    ModelLayer[]
+}
+
+model ModelLayer {
+  id                 Int       @id @unique @default(autoincrement())
+  createdAt          DateTime? @default(now())
+  experiment_id      Int
+  experiment_step_id Int
+  model_schema_id    Int
+
+  type        String
+  units       String
+  activation  String
+  regularizer String
+
+  Expirement     Experiment     @relation(fields: [experiment_id], references: [id])
+  ExperimentStep ExperimentStep @relation(fields: [experiment_step_id], references: [id])
+  ModelSchema    ModelSchema    @relation(fields: [model_schema_id], references: [id])
+}
