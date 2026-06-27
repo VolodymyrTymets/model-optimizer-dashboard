@@ -3,6 +3,7 @@ import { ExperimentStepFindFirstArgs } from '../prisma/generated/models';
 import { PaginationService } from '../common/pagination.service';
 import { ExperimentStepsEntity } from './entities/experiment-steps.entity';
 import { PrismaService } from '../prisma/prisma.service';
+import { GraphQLResolveInfo } from 'graphql/type';
 
 @Injectable()
 export class ExperimentStepsService extends PaginationService {
@@ -13,16 +14,21 @@ export class ExperimentStepsService extends PaginationService {
   findExperimentSteps(
     experiment_id: number,
     findArgs: ExperimentStepFindFirstArgs,
+    info?: GraphQLResolveInfo,
   ) {
     return this.findAllPaginated<
       ExperimentStepFindFirstArgs,
       ExperimentStepsEntity
-    >('experimentStep', {
-      where: {
-        experiment_id,
+    >(
+      'experimentStep',
+      {
+        where: {
+          experiment_id,
+        },
+        ...findArgs,
       },
-      ...findArgs,
-    });
+      info,
+    );
   }
   findExperimentStepSchema(step_id: number) {
     return this.prismaService.modelSchema.findFirst({

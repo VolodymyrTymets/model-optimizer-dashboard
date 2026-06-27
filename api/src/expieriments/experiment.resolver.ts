@@ -8,6 +8,7 @@ import {
 } from './entities/experiment.entity';
 import { ExperimentService } from './experiment.service';
 import { ExperimentPaginatedEntity } from './entities/experiment.paginated.entity';
+import { type GraphQLResolveInfo } from 'graphql/type';
 
 @Resolver(() => ExperimentEntity)
 export class ExperimentResolver {
@@ -16,13 +17,19 @@ export class ExperimentResolver {
   @Query(() => ExperimentPaginatedEntity, {
     description: 'Get Experiments with pagination',
   })
-  async experiments(@Args('pagination') pagination: PaginationInput) {
+  async experiments(
+    @Args('pagination') pagination: PaginationInput,
+    info?: GraphQLResolveInfo,
+  ) {
     const { skip, take, orderBy } = transformPagination(pagination);
-    return this.experimentsService.findExperiments({
-      skip,
-      take,
-      orderBy,
-    });
+    return this.experimentsService.findExperiments(
+      {
+        skip,
+        take,
+        orderBy,
+      },
+      info,
+    );
   }
   @ResolveField(() => ExperimentDetailsEntity)
   async details(@Parent() experiment: ExperimentEntity) {

@@ -11,8 +11,8 @@ export class ModelLayerEntity extends BasicEntity {
   model_schema_id: number;
   @Field(() => String, { description: 'type' })
   type: string;
-  @Field(() => String, { description: 'units' })
-  units: string;
+  @Field(() => Int, { description: 'units' })
+  units: number;
   @Field(() => String, { description: 'activation' })
   activation: string;
   @Field(() => String, { description: 'regularizer' })
@@ -29,8 +29,8 @@ export class ModelSchemaEntity extends BasicEntity {
   optimizer: string;
   @Field(() => String, { description: 'loss' })
   loss: string;
-  @Field(() => [ModelLayerEntity], { description: 'layers' })
-  layers: ModelLayerEntity[];
+  @Field(() => [ModelLayerEntity], { nullable: true, description: 'layers' })
+  modelLayers: ModelLayerEntity[];
 }
 
 @ObjectType()
