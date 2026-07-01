@@ -24,6 +24,30 @@ export class ExperimentService extends PaginationService {
     );
   }
 
+  findExperiment(experimentId: number) {
+    return this.prismaService.experiment.findFirst({
+      where: {
+        id: experimentId,
+      },
+    });
+  }
+
+  async findBestExperiment() {
+    const bestStep = await this.prismaService.experimentStep.findFirst({
+      orderBy: {
+        accuracy_delta: 'desc',
+      },
+      select: {
+        experiment_id: true,
+      },
+    });
+    return this.prismaService.experiment.findFirst({
+      where: {
+        id: bestStep?.experiment_id,
+      },
+    });
+  }
+
   findExperimentDetails(experimentId: number) {
     return this.prismaService.experimentDetails.findFirst({
       where: {
@@ -36,6 +60,17 @@ export class ExperimentService extends PaginationService {
     return this.prismaService.experimentDataSetDetails.findFirst({
       where: {
         experiment_id: experimentId,
+      },
+    });
+  }
+
+  findExperimentBestStep(experimentId: number) {
+    return this.prismaService.experimentStep.findFirst({
+      where: {
+        experiment_id: experimentId,
+      },
+      orderBy: {
+        accuracy_delta: 'desc',
       },
     });
   }

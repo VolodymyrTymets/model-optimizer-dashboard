@@ -75,6 +75,7 @@ export type ExperimentDetailsEntity = {
 
 export type ExperimentEntity = {
   __typename?: 'ExperimentEntity';
+  bestStep: ExperimentStepsEntity;
   /** createdAt */
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   /** dataSetDetails */
@@ -176,14 +177,22 @@ export type PaginationInput = {
 
 export type Query = {
   __typename?: 'Query';
+  /** Get Best Experiment */
+  bestExperiment: ExperimentEntity;
+  /** Get Single Experiment */
+  experiment: ExperimentEntity;
   /** Get Experiments Steps with pagination */
   experimentSteps: ExperimentStepsPaginatedEntity;
   /** Get Experiments with pagination */
   experiments: ExperimentPaginatedEntity;
 };
 
+export type QueryExperimentArgs = {
+  experiment_id: Scalars['Int']['input'];
+};
+
 export type QueryExperimentStepsArgs = {
-  experiment_id: Scalars['Float']['input'];
+  experiment_id: Scalars['Int']['input'];
   pagination: PaginationInput;
 };
 
@@ -218,6 +227,13 @@ export type ExperimentFragment = {
     loss: string;
     regularizer?: string | null;
   };
+  bestStep: {
+    __typename?: 'ExperimentStepsEntity';
+    id: number;
+    accuracy_delta: number;
+    record_accuracy: number;
+    validation_accuracy: number;
+  };
 };
 
 export type ExperimentsQueryVariables = Exact<{
@@ -249,7 +265,84 @@ export type ExperimentsQuery = {
         loss: string;
         regularizer?: string | null;
       };
+      bestStep: {
+        __typename?: 'ExperimentStepsEntity';
+        id: number;
+        accuracy_delta: number;
+        record_accuracy: number;
+        validation_accuracy: number;
+      };
     }>;
+  };
+};
+
+export type ExperimentQueryVariables = Exact<{
+  experiment_id: Scalars['Int']['input'];
+}>;
+
+export type ExperimentQuery = {
+  __typename?: 'Query';
+  experiment: {
+    __typename?: 'ExperimentEntity';
+    id: number;
+    createdAt?: any | null;
+    endAt?: any | null;
+    dataSetDetails: {
+      __typename?: 'ExperimentDataSetDetailsEntity';
+      argumentation_types: string;
+      af_type: string;
+      labels: string;
+      duration: number;
+    };
+    details: {
+      __typename?: 'ExperimentDetailsEntity';
+      layers: string;
+      activation: string;
+      optimizer: string;
+      loss: string;
+      regularizer?: string | null;
+    };
+    bestStep: {
+      __typename?: 'ExperimentStepsEntity';
+      id: number;
+      accuracy_delta: number;
+      record_accuracy: number;
+      validation_accuracy: number;
+    };
+  };
+};
+
+export type BestExperimentQueryVariables = Exact<{ [key: string]: never }>;
+
+export type BestExperimentQuery = {
+  __typename?: 'Query';
+  bestExperiment: {
+    __typename?: 'ExperimentEntity';
+    id: number;
+    createdAt?: any | null;
+    endAt?: any | null;
+    dataSetDetails: {
+      __typename?: 'ExperimentDataSetDetailsEntity';
+      argumentation_types: string;
+      af_type: string;
+      labels: string;
+      duration: number;
+    };
+    details: {
+      __typename?: 'ExperimentDetailsEntity';
+      layers: string;
+      activation: string;
+      optimizer: string;
+      loss: string;
+      regularizer?: string | null;
+    };
+    bestStep: {
+      __typename?: 'ExperimentStepsEntity';
+      id: number;
+      accuracy_delta: number;
+      record_accuracy: number;
+      validation_accuracy: number;
+    };
   };
 };
 
@@ -270,6 +363,12 @@ export const ExperimentFragmentDoc = gql`
       optimizer
       loss
       regularizer
+    }
+    bestStep {
+      id
+      accuracy_delta
+      record_accuracy
+      validation_accuracy
     }
   }
 `;
@@ -374,4 +473,202 @@ export type ExperimentsSuspenseQueryHookResult = ReturnType<
 export type ExperimentsQueryResult = Apollo.QueryResult<
   ExperimentsQuery,
   ExperimentsQueryVariables
+>;
+export const ExperimentDocument = gql`
+  query Experiment($experiment_id: Int!) {
+    experiment(experiment_id: $experiment_id) {
+      ...Experiment
+    }
+  }
+  ${ExperimentFragmentDoc}
+`;
+
+/**
+ * __useExperimentQuery__
+ *
+ * To run a query within a React component, call `useExperimentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useExperimentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useExperimentQuery({
+ *   variables: {
+ *      experiment_id: // value for 'experiment_id'
+ *   },
+ * });
+ */
+export function useExperimentQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ExperimentQuery,
+    ExperimentQueryVariables
+  > &
+    (
+      | { variables: ExperimentQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ExperimentQuery, ExperimentQueryVariables>(
+    ExperimentDocument,
+    options,
+  );
+}
+export function useExperimentLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ExperimentQuery,
+    ExperimentQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ExperimentQuery, ExperimentQueryVariables>(
+    ExperimentDocument,
+    options,
+  );
+}
+// @ts-ignore
+export function useExperimentSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    ExperimentQuery,
+    ExperimentQueryVariables
+  >,
+): Apollo.UseSuspenseQueryResult<ExperimentQuery, ExperimentQueryVariables>;
+export function useExperimentSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        ExperimentQuery,
+        ExperimentQueryVariables
+      >,
+): Apollo.UseSuspenseQueryResult<
+  ExperimentQuery | undefined,
+  ExperimentQueryVariables
+>;
+export function useExperimentSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        ExperimentQuery,
+        ExperimentQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<ExperimentQuery, ExperimentQueryVariables>(
+    ExperimentDocument,
+    options,
+  );
+}
+export type ExperimentQueryHookResult = ReturnType<typeof useExperimentQuery>;
+export type ExperimentLazyQueryHookResult = ReturnType<
+  typeof useExperimentLazyQuery
+>;
+export type ExperimentSuspenseQueryHookResult = ReturnType<
+  typeof useExperimentSuspenseQuery
+>;
+export type ExperimentQueryResult = Apollo.QueryResult<
+  ExperimentQuery,
+  ExperimentQueryVariables
+>;
+export const BestExperimentDocument = gql`
+  query BestExperiment {
+    bestExperiment {
+      ...Experiment
+    }
+  }
+  ${ExperimentFragmentDoc}
+`;
+
+/**
+ * __useBestExperimentQuery__
+ *
+ * To run a query within a React component, call `useBestExperimentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBestExperimentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBestExperimentQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBestExperimentQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    BestExperimentQuery,
+    BestExperimentQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<BestExperimentQuery, BestExperimentQueryVariables>(
+    BestExperimentDocument,
+    options,
+  );
+}
+export function useBestExperimentLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    BestExperimentQuery,
+    BestExperimentQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<BestExperimentQuery, BestExperimentQueryVariables>(
+    BestExperimentDocument,
+    options,
+  );
+}
+// @ts-ignore
+export function useBestExperimentSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    BestExperimentQuery,
+    BestExperimentQueryVariables
+  >,
+): Apollo.UseSuspenseQueryResult<
+  BestExperimentQuery,
+  BestExperimentQueryVariables
+>;
+export function useBestExperimentSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        BestExperimentQuery,
+        BestExperimentQueryVariables
+      >,
+): Apollo.UseSuspenseQueryResult<
+  BestExperimentQuery | undefined,
+  BestExperimentQueryVariables
+>;
+export function useBestExperimentSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        BestExperimentQuery,
+        BestExperimentQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    BestExperimentQuery,
+    BestExperimentQueryVariables
+  >(BestExperimentDocument, options);
+}
+export type BestExperimentQueryHookResult = ReturnType<
+  typeof useBestExperimentQuery
+>;
+export type BestExperimentLazyQueryHookResult = ReturnType<
+  typeof useBestExperimentLazyQuery
+>;
+export type BestExperimentSuspenseQueryHookResult = ReturnType<
+  typeof useBestExperimentSuspenseQuery
+>;
+export type BestExperimentQueryResult = Apollo.QueryResult<
+  BestExperimentQuery,
+  BestExperimentQueryVariables
 >;

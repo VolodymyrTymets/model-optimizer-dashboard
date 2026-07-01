@@ -12,3 +12,21 @@ export const Experiments = gql`
   }
   ${ExperimentFragment}
 `;
+
+export const Experiment = gql`
+  query Experiment($experiment_id: Int!) {
+    experiment(experiment_id: $experiment_id) {
+      ...Experiment
+    }
+  }
+  ${ExperimentFragment}
+`;
+
+export const BestExperiment = gql`
+  query BestExperiment {
+    bestExperiment {
+      ...Experiment
+    }
+  }
+  ${ExperimentFragment}
+`;

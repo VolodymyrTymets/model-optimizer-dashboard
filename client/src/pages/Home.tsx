@@ -1,1 +1,4 @@
-export default function Home() { return <h1>Home</h1> }
+import BestExperimentContainer from '@/containers/BestExperimentContainer/BestExperimentContainer.tsx';
+export default function Home() {
+  return <BestExperimentContainer />;
+}

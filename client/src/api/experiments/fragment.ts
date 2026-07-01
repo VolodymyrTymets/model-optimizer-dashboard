@@ -17,5 +17,11 @@ export const ExperimentFragment = gql`
       loss
       regularizer
     }
+    bestStep {
+      id
+      accuracy_delta
+      record_accuracy
+      validation_accuracy
+    }
   }
 `;

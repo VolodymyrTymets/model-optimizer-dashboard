@@ -1,6 +1,7 @@
 import {
   Args,
   Info,
+  Int,
   Parent,
   Query,
   ResolveField,
@@ -27,7 +28,7 @@ export class ExperimentStepsResolver {
   })
   async experimentSteps(
     @Args('pagination') pagination: PaginationInput,
-    @Args('experiment_id') experiment_id: number,
+    @Args({ name: 'experiment_id', type: () => Int }) experiment_id: number,
     @Info() info?: GraphQLResolveInfo,
   ) {
     const { skip, take, orderBy } = transformPagination(pagination);
