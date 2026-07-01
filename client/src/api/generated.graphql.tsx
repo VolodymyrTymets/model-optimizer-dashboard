@@ -1,0 +1,334 @@
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
+export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
+const defaultOptions = {} as const;
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  DateTime: { input: any; output: any };
+};
+
+export type ExperimentDataSetDetailsEntity = {
+  __typename?: 'ExperimentDataSetDetailsEntity';
+  /** af_type */
+  af_type: Scalars['String']['output'];
+  /** argumentation_types */
+  argumentation_types: Scalars['String']['output'];
+  /** createdAt */
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  /**   duration */
+  duration: Scalars['Float']['output'];
+  /** regularizer */
+  experiment_id: Scalars['Int']['output'];
+  /** id */
+  id: Scalars['Int']['output'];
+  /** labels */
+  labels: Scalars['String']['output'];
+};
+
+export type ExperimentDetailsEntity = {
+  __typename?: 'ExperimentDetailsEntity';
+  /** activation */
+  activation: Scalars['String']['output'];
+  /** batch_size */
+  batch_size: Scalars['Int']['output'];
+  /** createdAt */
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  /** epochs */
+  epochs: Scalars['Int']['output'];
+  /** regularizer */
+  experiment_id: Scalars['Int']['output'];
+  /** id */
+  id: Scalars['Int']['output'];
+  /** layers */
+  layers: Scalars['String']['output'];
+  /** loss */
+  loss: Scalars['String']['output'];
+  /** optimizer */
+  optimizer: Scalars['String']['output'];
+  /** regularizer */
+  regularizer?: Maybe<Scalars['String']['output']>;
+};
+
+export type ExperimentEntity = {
+  __typename?: 'ExperimentEntity';
+  /** createdAt */
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  /** dataSetDetails */
+  dataSetDetails: ExperimentDataSetDetailsEntity;
+  /** details */
+  details: ExperimentDetailsEntity;
+  /** endAt */
+  endAt?: Maybe<Scalars['DateTime']['output']>;
+  /** id */
+  id: Scalars['Int']['output'];
+};
+
+export type ExperimentPaginatedEntity = {
+  __typename?: 'ExperimentPaginatedEntity';
+  collection: Array<ExperimentEntity>;
+  total: Scalars['Int']['output'];
+};
+
+export type ExperimentStepsEntity = {
+  __typename?: 'ExperimentStepsEntity';
+  /** accuracy_delta */
+  accuracy_delta: Scalars['Float']['output'];
+  /** createdAt */
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  /** endAt */
+  endAt?: Maybe<Scalars['DateTime']['output']>;
+  /** epochs */
+  epochs: Scalars['Int']['output'];
+  /** experiment_id */
+  experiment_id: Scalars['Int']['output'];
+  /** fingerprint */
+  fingerprint: Scalars['String']['output'];
+  /** id */
+  id: Scalars['Int']['output'];
+  /** record_accuracy */
+  record_accuracy: Scalars['Float']['output'];
+  /** schema */
+  schema: ModelSchemaEntity;
+  /** step */
+  step: Scalars['Int']['output'];
+  /** validation_accuracy */
+  validation_accuracy: Scalars['Float']['output'];
+};
+
+export type ExperimentStepsPaginatedEntity = {
+  __typename?: 'ExperimentStepsPaginatedEntity';
+  collection: Array<ExperimentStepsEntity>;
+  total: Scalars['Int']['output'];
+};
+
+export type ModelLayerEntity = {
+  __typename?: 'ModelLayerEntity';
+  /** activation */
+  activation: Scalars['String']['output'];
+  /** createdAt */
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  /** experiment_id */
+  experiment_id: Scalars['Int']['output'];
+  /** experiment_step_id */
+  experiment_step_id: Scalars['Int']['output'];
+  /** id */
+  id: Scalars['Int']['output'];
+  /** model_schema_id */
+  model_schema_id: Scalars['Int']['output'];
+  /** regularizer */
+  regularizer: Scalars['String']['output'];
+  /** type */
+  type: Scalars['String']['output'];
+  /** units */
+  units: Scalars['Int']['output'];
+};
+
+export type ModelSchemaEntity = {
+  __typename?: 'ModelSchemaEntity';
+  /** createdAt */
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  /** experiment_id */
+  experiment_id: Scalars['Int']['output'];
+  /** experiment_step_id */
+  experiment_step_id: Scalars['Int']['output'];
+  /** id */
+  id: Scalars['Int']['output'];
+  /** loss */
+  loss: Scalars['String']['output'];
+  /** layers */
+  modelLayers?: Maybe<Array<ModelLayerEntity>>;
+  /** optimizer */
+  optimizer: Scalars['String']['output'];
+};
+
+export type PaginationInput = {
+  /** sorting */
+  orderBy?: InputMaybe<Array<SortingInput>>;
+  /** skip */
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  /** take */
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  /** Get Experiments Steps with pagination */
+  experimentSteps: ExperimentStepsPaginatedEntity;
+  /** Get Experiments with pagination */
+  experiments: ExperimentPaginatedEntity;
+};
+
+export type QueryExperimentStepsArgs = {
+  experiment_id: Scalars['Float']['input'];
+  pagination: PaginationInput;
+};
+
+export type QueryExperimentsArgs = {
+  pagination: PaginationInput;
+};
+
+export type SortingInput = {
+  /** sorting field */
+  field: Scalars['String']['input'];
+  /** sorting order */
+  order: Scalars['String']['input'];
+};
+
+export type ExperimentFragment = {
+  __typename?: 'ExperimentEntity';
+  id: number;
+  createdAt?: any | null;
+  endAt?: any | null;
+};
+
+export type ExperimentsQueryVariables = Exact<{
+  pagination: PaginationInput;
+}>;
+
+export type ExperimentsQuery = {
+  __typename?: 'Query';
+  experiments: {
+    __typename?: 'ExperimentPaginatedEntity';
+    total: number;
+    collection: Array<{
+      __typename?: 'ExperimentEntity';
+      id: number;
+      createdAt?: any | null;
+      endAt?: any | null;
+    }>;
+  };
+};
+
+export const ExperimentFragmentDoc = gql`
+  fragment Experiment on ExperimentEntity {
+    id
+    createdAt
+    endAt
+  }
+`;
+export const ExperimentsDocument = gql`
+  query Experiments($pagination: PaginationInput!) {
+    experiments(pagination: $pagination) {
+      collection {
+        ...Experiment
+      }
+      total
+    }
+  }
+  ${ExperimentFragmentDoc}
+`;
+
+/**
+ * __useExperimentsQuery__
+ *
+ * To run a query within a React component, call `useExperimentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useExperimentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useExperimentsQuery({
+ *   variables: {
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useExperimentsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ExperimentsQuery,
+    ExperimentsQueryVariables
+  > &
+    (
+      | { variables: ExperimentsQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ExperimentsQuery, ExperimentsQueryVariables>(
+    ExperimentsDocument,
+    options,
+  );
+}
+export function useExperimentsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ExperimentsQuery,
+    ExperimentsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ExperimentsQuery, ExperimentsQueryVariables>(
+    ExperimentsDocument,
+    options,
+  );
+}
+// @ts-ignore
+export function useExperimentsSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    ExperimentsQuery,
+    ExperimentsQueryVariables
+  >,
+): Apollo.UseSuspenseQueryResult<ExperimentsQuery, ExperimentsQueryVariables>;
+export function useExperimentsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        ExperimentsQuery,
+        ExperimentsQueryVariables
+      >,
+): Apollo.UseSuspenseQueryResult<
+  ExperimentsQuery | undefined,
+  ExperimentsQueryVariables
+>;
+export function useExperimentsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        ExperimentsQuery,
+        ExperimentsQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<ExperimentsQuery, ExperimentsQueryVariables>(
+    ExperimentsDocument,
+    options,
+  );
+}
+export type ExperimentsQueryHookResult = ReturnType<typeof useExperimentsQuery>;
+export type ExperimentsLazyQueryHookResult = ReturnType<
+  typeof useExperimentsLazyQuery
+>;
+export type ExperimentsSuspenseQueryHookResult = ReturnType<
+  typeof useExperimentsSuspenseQuery
+>;
+export type ExperimentsQueryResult = Apollo.QueryResult<
+  ExperimentsQuery,
+  ExperimentsQueryVariables
+>;
