@@ -1,0 +1,204 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ExperimentDetailsEntity {
+  """id"""
+  id: Int!
+
+  """createdAt"""
+  createdAt: DateTime
+
+  """regularizer"""
+  experiment_id: Int!
+
+  """layers"""
+  layers: String!
+
+  """activation"""
+  activation: String!
+
+  """optimizer"""
+  optimizer: String!
+
+  """regularizer"""
+  regularizer: String
+
+  """loss"""
+  loss: String!
+
+  """epochs"""
+  epochs: Int!
+
+  """batch_size"""
+  batch_size: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ExperimentDataSetDetailsEntity {
+  """id"""
+  id: Int!
+
+  """createdAt"""
+  createdAt: DateTime
+
+  """regularizer"""
+  experiment_id: Int!
+
+  """  duration"""
+  duration: Float!
+
+  """labels"""
+  labels: String!
+
+  """argumentation_types"""
+  argumentation_types: String!
+
+  """af_type"""
+  af_type: String!
+}
+
+type ExperimentEntity {
+  """id"""
+  id: Int!
+
+  """createdAt"""
+  createdAt: DateTime
+
+  """endAt"""
+  endAt: DateTime
+
+  """details"""
+  details: ExperimentDetailsEntity!
+
+  """dataSetDetails"""
+  dataSetDetails: ExperimentDataSetDetailsEntity!
+}
+
+type ExperimentPaginatedEntity {
+  collection: [ExperimentEntity!]!
+  total: Int!
+}
+
+type ModelLayerEntity {
+  """id"""
+  id: Int!
+
+  """createdAt"""
+  createdAt: DateTime
+
+  """experiment_id"""
+  experiment_id: Int!
+
+  """experiment_step_id"""
+  experiment_step_id: Int!
+
+  """model_schema_id"""
+  model_schema_id: Int!
+
+  """type"""
+  type: String!
+
+  """units"""
+  units: Int!
+
+  """activation"""
+  activation: String!
+
+  """regularizer"""
+  regularizer: String!
+}
+
+type ModelSchemaEntity {
+  """id"""
+  id: Int!
+
+  """createdAt"""
+  createdAt: DateTime
+
+  """experiment_id"""
+  experiment_id: Int!
+
+  """experiment_step_id"""
+  experiment_step_id: Int!
+
+  """optimizer"""
+  optimizer: String!
+
+  """loss"""
+  loss: String!
+
+  """layers"""
+  modelLayers: [ModelLayerEntity!]
+}
+
+type ExperimentStepsEntity {
+  """id"""
+  id: Int!
+
+  """createdAt"""
+  createdAt: DateTime
+
+  """experiment_id"""
+  experiment_id: Int!
+
+  """endAt"""
+  endAt: DateTime
+
+  """step"""
+  step: Int!
+
+  """fingerprint"""
+  fingerprint: String!
+
+  """record_accuracy"""
+  record_accuracy: Float!
+
+  """validation_accuracy"""
+  validation_accuracy: Float!
+
+  """accuracy_delta"""
+  accuracy_delta: Float!
+
+  """epochs"""
+  epochs: Int!
+
+  """schema"""
+  schema: ModelSchemaEntity!
+}
+
+type ExperimentStepsPaginatedEntity {
+  collection: [ExperimentStepsEntity!]!
+  total: Int!
+}
+
+type Query {
+  """Get Experiments with pagination"""
+  experiments(pagination: PaginationInput!): ExperimentPaginatedEntity!
+
+  """Get Experiments Steps with pagination"""
+  experimentSteps(pagination: PaginationInput!, experiment_id: Float!): ExperimentStepsPaginatedEntity!
+}
+
+input PaginationInput {
+  """sorting"""
+  orderBy: [SortingInput!] = [{ field: "createdAt", order: "desc" }]
+
+  """take"""
+  take: Int
+
+  """skip"""
+  skip: Int
+}
+
+input SortingInput {
+  """sorting field"""
+  field: String!
+
+  """sorting order"""
+  order: String!
+}

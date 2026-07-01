@@ -6,7 +6,12 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../src/prisma/generated"
+
+  // Optional Prisma Client Generator configuration
+  runtime                = "nodejs" // <-- Important part 2
+  moduleFormat           = "cjs"
+  generatedFileExtension = "ts" // <-- Important part 3
 }
 
 datasource db {
@@ -22,6 +27,8 @@ model Experiment {
   experimentSteps   ExperimentStep[]
   modelSchemas      ModelSchema[]
   modelLayers       ModelLayer[]
+
+  @@map("experiment")
 }
 
 model ExperimentDetails {
@@ -37,6 +44,8 @@ model ExperimentDetails {
   batch_size    Int
   units_range   String
   Expirement    Experiment @relation(fields: [experiment_id], references: [id])
+
+  @@map("experiment_details")
 }
 
 model ExperimentDataSetDetails {
@@ -48,6 +57,8 @@ model ExperimentDataSetDetails {
   argumentation_types String
   af_type             String
   Expirement          Experiment @relation(fields: [experiment_id], references: [id])
+
+  @@map("experiment_data_set_details")
 }
 
 model ExperimentStep {
@@ -65,6 +76,8 @@ model ExperimentStep {
   Expirement   Experiment    @relation(fields: [experiment_id], references: [id])
   modelSchemas ModelSchema[]
   modelLayers  ModelLayer[]
+
+  @@map("experiment_step")
 }
 
 model ModelSchema {
@@ -78,6 +91,8 @@ model ModelSchema {
   Expirement     Experiment     @relation(fields: [experiment_id], references: [id])
   ExperimentStep ExperimentStep @relation(fields: [experiment_step_id], references: [id])
   modelLayers    ModelLayer[]
+
+  @@map("model_schema")
 }
 
 model ModelLayer {
@@ -88,11 +103,13 @@ model ModelLayer {
   model_schema_id    Int
 
   type        String
-  units       String
+  units       Int
   activation  String
   regularizer String
 
   Expirement     Experiment     @relation(fields: [experiment_id], references: [id])
   ExperimentStep ExperimentStep @relation(fields: [experiment_step_id], references: [id])
   ModelSchema    ModelSchema    @relation(fields: [model_schema_id], references: [id])
+
+  @@map("model_layer")
 }
