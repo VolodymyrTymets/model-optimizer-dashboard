@@ -3,8 +3,8 @@ import { Route, Routes } from 'react-router';
 
 import {
   HOME,
-  EXPERIENCES,
-  EXPERIENCE,
+  EXPERIMENT,
+  EXPERIMENTS,
   STEPS,
   STEP,
   SCHEMA,
@@ -19,7 +19,7 @@ import Step from '../pages/Step.tsx';
 
 type navigationRouteType = { path: string; element: ReactNode };
 
-const Layout = lazy(() => import('../Layout/Layout'));
+const Layout = lazy(() => import('@/components/Layout/Layout'));
 
 const AppRoutes = () => {
   const navigationRoutes: navigationRouteType[] = [
@@ -32,7 +32,7 @@ const AppRoutes = () => {
       ),
     },
     {
-      path: EXPERIENCES,
+      path: EXPERIMENTS,
       element: (
         <Layout>
           <Experiments />
@@ -40,7 +40,7 @@ const AppRoutes = () => {
       ),
     },
     {
-      path: EXPERIENCE,
+      path: EXPERIMENT,
       element: (
         <Layout>
           <Experiment />

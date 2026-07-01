@@ -1,7 +1,7 @@
 export const HOME = '/';
-export const EXPERIENCES = '/experience';
-export const EXPERIENCE = '/experience/:experienceId';
-export const STEPS = '/experience/:experienceId/steps';
-export const STEP = '/experience/:experienceId/steps/:stepId';
+export const EXPERIMENTS = '/experiments';
+export const EXPERIMENT = '/experiment/:experimentId';
+export const STEPS = '/experiment/:experimentId/steps';
+export const STEP = '/experiment/:experimentId/steps/:stepId';
 export const SCHEMA = '/schema/:schemaId';
 

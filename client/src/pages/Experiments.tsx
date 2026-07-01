@@ -1,1 +1,5 @@
-export default function Experiments() { return <h1>Experiments</h1> }
+import ExperimentsContainer from '@/containers/experiments/Experiments';
+
+export default function Experiments() {
+  return <ExperimentsContainer />;
+}
