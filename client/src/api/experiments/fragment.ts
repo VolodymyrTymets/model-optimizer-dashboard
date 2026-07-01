@@ -4,5 +4,18 @@ export const ExperimentFragment = gql`
     id
     createdAt
     endAt
+    dataSetDetails {
+      argumentation_types
+      af_type
+      labels
+      duration
+    }
+    details {
+      layers
+      activation
+      optimizer
+      loss
+      regularizer
+    }
   }
 `;

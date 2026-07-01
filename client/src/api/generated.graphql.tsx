@@ -203,6 +203,21 @@ export type ExperimentFragment = {
   id: number;
   createdAt?: any | null;
   endAt?: any | null;
+  dataSetDetails: {
+    __typename?: 'ExperimentDataSetDetailsEntity';
+    argumentation_types: string;
+    af_type: string;
+    labels: string;
+    duration: number;
+  };
+  details: {
+    __typename?: 'ExperimentDetailsEntity';
+    layers: string;
+    activation: string;
+    optimizer: string;
+    loss: string;
+    regularizer?: string | null;
+  };
 };
 
 export type ExperimentsQueryVariables = Exact<{
@@ -219,6 +234,21 @@ export type ExperimentsQuery = {
       id: number;
       createdAt?: any | null;
       endAt?: any | null;
+      dataSetDetails: {
+        __typename?: 'ExperimentDataSetDetailsEntity';
+        argumentation_types: string;
+        af_type: string;
+        labels: string;
+        duration: number;
+      };
+      details: {
+        __typename?: 'ExperimentDetailsEntity';
+        layers: string;
+        activation: string;
+        optimizer: string;
+        loss: string;
+        regularizer?: string | null;
+      };
     }>;
   };
 };
@@ -228,6 +258,19 @@ export const ExperimentFragmentDoc = gql`
     id
     createdAt
     endAt
+    dataSetDetails {
+      argumentation_types
+      af_type
+      labels
+      duration
+    }
+    details {
+      layers
+      activation
+      optimizer
+      loss
+      regularizer
+    }
   }
 `;
 export const ExperimentsDocument = gql`
