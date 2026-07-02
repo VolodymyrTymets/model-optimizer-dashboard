@@ -8,7 +8,7 @@ import {
   TableRoot,
   TableRow,
 } from '@/components/tailgrids/core/table.tsx';
-import Image from '@/components/Image/Image.tsx';
+import ModelSchema from "@/containers/ModelSchema/ModelSchema.tsx";
 
 export default function ExperimentStep({
   step,
@@ -59,12 +59,7 @@ export default function ExperimentStep({
           </TableBody>
         </TableRoot>
       </div>
-      <div className="flex flex-col gap-2">
-        <Image
-          className="max-w-[400px] object-contain"
-          image={modelSchema.plot}
-        />
-      </div>
+      <ModelSchema modelSchema={modelSchema} />
     </div>
   );
 }

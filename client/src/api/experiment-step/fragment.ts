@@ -22,10 +22,13 @@ export const ModelSchemaFragment = gql`
   fragment ModelSchema on ModelSchemaEntity {
     id
     modelLayers {
+      type
       regularizer
       activation
       units
     }
+    loss
+    optimizer
     plot {
       ...Image
     }

@@ -248,8 +248,11 @@ export type RecordResultFragment = {
 export type ModelSchemaFragment = {
   __typename?: 'ModelSchemaEntity';
   id: number;
+  loss: string;
+  optimizer: string;
   modelLayers?: Array<{
     __typename?: 'ModelLayerEntity';
+    type: string;
     regularizer?: string | null;
     activation?: string | null;
     units: number;
@@ -267,8 +270,11 @@ export type ExperimentStepFragment = {
   modelSchema: {
     __typename?: 'ModelSchemaEntity';
     id: number;
+    loss: string;
+    optimizer: string;
     modelLayers?: Array<{
       __typename?: 'ModelLayerEntity';
+      type: string;
       regularizer?: string | null;
       activation?: string | null;
       units: number;
@@ -339,8 +345,11 @@ export type ExperimentFragment = {
     modelSchema: {
       __typename?: 'ModelSchemaEntity';
       id: number;
+      loss: string;
+      optimizer: string;
       modelLayers?: Array<{
         __typename?: 'ModelLayerEntity';
+        type: string;
         regularizer?: string | null;
         activation?: string | null;
         units: number;
@@ -400,8 +409,11 @@ export type ExperimentsQuery = {
         modelSchema: {
           __typename?: 'ModelSchemaEntity';
           id: number;
+          loss: string;
+          optimizer: string;
           modelLayers?: Array<{
             __typename?: 'ModelLayerEntity';
+            type: string;
             regularizer?: string | null;
             activation?: string | null;
             units: number;
@@ -468,8 +480,11 @@ export type ExperimentQuery = {
       modelSchema: {
         __typename?: 'ModelSchemaEntity';
         id: number;
+        loss: string;
+        optimizer: string;
         modelLayers?: Array<{
           __typename?: 'ModelLayerEntity';
+          type: string;
           regularizer?: string | null;
           activation?: string | null;
           units: number;
@@ -533,8 +548,11 @@ export type BestExperimentQuery = {
       modelSchema: {
         __typename?: 'ModelSchemaEntity';
         id: number;
+        loss: string;
+        optimizer: string;
         modelLayers?: Array<{
           __typename?: 'ModelLayerEntity';
+          type: string;
           regularizer?: string | null;
           activation?: string | null;
           units: number;
@@ -574,10 +592,13 @@ export const ModelSchemaFragmentDoc = gql`
   fragment ModelSchema on ModelSchemaEntity {
     id
     modelLayers {
+      type
       regularizer
       activation
       units
     }
+    loss
+    optimizer
     plot {
       ...Image
     }
