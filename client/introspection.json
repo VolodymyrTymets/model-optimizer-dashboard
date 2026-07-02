@@ -256,7 +256,7 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "name": "ExperimentStepsEntity",
+                "name": "ExperimentStepEntity",
                 "kind": "OBJECT",
                 "ofType": null
               }
@@ -380,7 +380,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "ExperimentStepsEntity",
+        "name": "ExperimentStepEntity",
         "description": null,
         "isOneOf": null,
         "fields": [
@@ -582,7 +582,7 @@
                   "name": null,
                   "kind": "NON_NULL",
                   "ofType": {
-                    "name": "ExperimentStepsEntity",
+                    "name": "ExperimentStepEntity",
                     "kind": "OBJECT",
                     "ofType": null
                   }
@@ -976,6 +976,47 @@
               "name": null,
               "ofType": {
                 "name": "ExperimentEntity",
+                "kind": "OBJECT",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "experimentStep",
+            "description": "Get Experiment Steps ",
+            "args": [
+              {
+                "name": "experiment_id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": { "name": "Int", "kind": "SCALAR", "ofType": null }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "step_id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": { "name": "Int", "kind": "SCALAR", "ofType": null }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "name": "ExperimentStepEntity",
                 "kind": "OBJECT",
                 "ofType": null
               }

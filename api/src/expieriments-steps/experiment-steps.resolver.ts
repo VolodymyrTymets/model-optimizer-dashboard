@@ -10,14 +10,14 @@ import {
 import { transformPagination } from '../common/resolver.helpers';
 import { PaginationInput } from '../common/input/pagination.input';
 import {
-  ExperimentStepsEntity,
+  ExperimentStepEntity,
   ModelSchemaEntity,
 } from './entities/experiment-steps.entity';
 import { ExperimentStepsService } from './experiment-steps.service';
 import { ExperimentStepsPaginatedEntity } from './entities/experiment-steps.paginated.entity';
 import { type GraphQLResolveInfo } from 'graphql/type';
 
-@Resolver(() => ExperimentStepsEntity)
+@Resolver(() => ExperimentStepEntity)
 export class ExperimentStepsResolver {
   constructor(
     private readonly experimentsStepService: ExperimentStepsService,
@@ -42,9 +42,20 @@ export class ExperimentStepsResolver {
       info,
     );
   }
+  @Query(() => ExperimentStepEntity, {
+    description: 'Get Experiment Steps ',
+  })
+  async experimentStep(
+    @Args({ name: 'step_id', type: () => Int }) step_id: number,
+    @Args({ name: 'experiment_id', type: () => Int }) experiment_id: number,
+  ) {
+    return this.experimentsStepService.findExperimentStep(
+      experiment_id,
+      step_id,
+    );
+  }
   @ResolveField(() => ModelSchemaEntity)
-  async modelSchema(@Parent() step: ExperimentStepsEntity) {
+  async modelSchema(@Parent() step: ExperimentStepEntity) {
     return this.experimentsStepService.findExperimentStepSchema(step.id);
   }
-
 }

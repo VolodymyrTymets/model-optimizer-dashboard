@@ -16,7 +16,7 @@ import {
 import { ExperimentService } from './experiment.service';
 import { ExperimentPaginatedEntity } from './entities/experiment.paginated.entity';
 import { type GraphQLResolveInfo } from 'graphql/type';
-import { ExperimentStepsEntity } from '../expieriments-steps/entities/experiment-steps.entity';
+import { ExperimentStepEntity } from '../expieriments-steps/entities/experiment-steps.entity';
 
 @Resolver(() => ExperimentEntity)
 export class ExperimentResolver {
@@ -65,7 +65,7 @@ export class ExperimentResolver {
     return this.experimentsService.findExperimentDataSetDetails(experiment.id);
   }
 
-  @ResolveField(() => ExperimentStepsEntity)
+  @ResolveField(() => ExperimentStepEntity)
   async bestStep(@Parent() experiment: ExperimentEntity) {
     return this.experimentsService.findExperimentBestStep(experiment.id);
   }

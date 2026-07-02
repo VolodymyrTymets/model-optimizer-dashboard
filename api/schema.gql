@@ -77,7 +77,7 @@ type ExperimentEntity {
 
   """dataSetDetails"""
   dataSetDetails: ExperimentDataSetDetailsEntity!
-  bestStep: ExperimentStepsEntity!
+  bestStep: ExperimentStepEntity!
 }
 
 type ExperimentPaginatedEntity {
@@ -159,7 +159,7 @@ type ModelSchemaEntity {
   plot: ImageEntity
 }
 
-type ExperimentStepsEntity {
+type ExperimentStepEntity {
   """id"""
   id: Int!
 
@@ -202,7 +202,7 @@ type ExperimentStepsEntity {
 }
 
 type ExperimentStepsPaginatedEntity {
-  collection: [ExperimentStepsEntity!]!
+  collection: [ExperimentStepEntity!]!
   total: Int!
 }
 
@@ -218,6 +218,9 @@ type Query {
 
   """Get Experiments Steps with pagination"""
   experimentSteps(pagination: PaginationInput!, experiment_id: Int!): ExperimentStepsPaginatedEntity!
+
+  """Get Experiment Steps """
+  experimentStep(step_id: Int!, experiment_id: Int!): ExperimentStepEntity!
 }
 
 input PaginationInput {

@@ -75,7 +75,7 @@ export type ExperimentDetailsEntity = {
 
 export type ExperimentEntity = {
   __typename?: 'ExperimentEntity';
-  bestStep: ExperimentStepsEntity;
+  bestStep: ExperimentStepEntity;
   /** createdAt */
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   /** dataSetDetails */
@@ -94,8 +94,8 @@ export type ExperimentPaginatedEntity = {
   total: Scalars['Int']['output'];
 };
 
-export type ExperimentStepsEntity = {
-  __typename?: 'ExperimentStepsEntity';
+export type ExperimentStepEntity = {
+  __typename?: 'ExperimentStepEntity';
   /** accuracy_delta */
   accuracy_delta: Scalars['Float']['output'];
   /** createdAt */
@@ -127,7 +127,7 @@ export type ExperimentStepsEntity = {
 
 export type ExperimentStepsPaginatedEntity = {
   __typename?: 'ExperimentStepsPaginatedEntity';
-  collection: Array<ExperimentStepsEntity>;
+  collection: Array<ExperimentStepEntity>;
   total: Scalars['Int']['output'];
 };
 
@@ -196,6 +196,8 @@ export type Query = {
   bestExperiment: ExperimentEntity;
   /** Get Single Experiment */
   experiment: ExperimentEntity;
+  /** Get Experiment Steps  */
+  experimentStep: ExperimentStepEntity;
   /** Get Experiments Steps with pagination */
   experimentSteps: ExperimentStepsPaginatedEntity;
   /** Get Experiments with pagination */
@@ -204,6 +206,11 @@ export type Query = {
 
 export type QueryExperimentArgs = {
   experiment_id: Scalars['Int']['input'];
+};
+
+export type QueryExperimentStepArgs = {
+  experiment_id: Scalars['Int']['input'];
+  step_id: Scalars['Int']['input'];
 };
 
 export type QueryExperimentStepsArgs = {
@@ -261,7 +268,7 @@ export type ModelSchemaFragment = {
 };
 
 export type ExperimentStepFragment = {
-  __typename?: 'ExperimentStepsEntity';
+  __typename?: 'ExperimentStepEntity';
   id: number;
   step: number;
   accuracy_delta: number;
@@ -305,13 +312,55 @@ export type ExperimentStepsQuery = {
     __typename?: 'ExperimentStepsPaginatedEntity';
     total: number;
     collection: Array<{
-      __typename?: 'ExperimentStepsEntity';
+      __typename?: 'ExperimentStepEntity';
       id: number;
       step: number;
       accuracy_delta: number;
       record_accuracy: number;
       validation_accuracy: number;
     }>;
+  };
+};
+
+export type ExperimentStepQueryVariables = Exact<{
+  experiment_id: Scalars['Int']['input'];
+  step_id: Scalars['Int']['input'];
+}>;
+
+export type ExperimentStepQuery = {
+  __typename?: 'Query';
+  experimentStep: {
+    __typename?: 'ExperimentStepEntity';
+    id: number;
+    step: number;
+    accuracy_delta: number;
+    record_accuracy: number;
+    validation_accuracy: number;
+    modelSchema: {
+      __typename?: 'ModelSchemaEntity';
+      id: number;
+      loss: string;
+      optimizer: string;
+      modelLayers?: Array<{
+        __typename?: 'ModelLayerEntity';
+        type: string;
+        regularizer?: string | null;
+        activation?: string | null;
+        units: number;
+      }> | null;
+      plot?: { __typename?: 'ImageEntity'; id: number; base64: string } | null;
+    };
+    training_history_plot?: {
+      __typename?: 'ImageEntity';
+      id: number;
+      base64: string;
+    } | null;
+    recordResults?: Array<{
+      __typename?: 'RecordResultEntity';
+      id: number;
+      accuracy: number;
+      image?: { __typename?: 'ImageEntity'; id: number; base64: string } | null;
+    }> | null;
   };
 };
 
@@ -336,7 +385,7 @@ export type ExperimentFragment = {
     regularizer?: string | null;
   };
   bestStep: {
-    __typename?: 'ExperimentStepsEntity';
+    __typename?: 'ExperimentStepEntity';
     id: number;
     step: number;
     accuracy_delta: number;
@@ -400,7 +449,7 @@ export type ExperimentsQuery = {
         regularizer?: string | null;
       };
       bestStep: {
-        __typename?: 'ExperimentStepsEntity';
+        __typename?: 'ExperimentStepEntity';
         id: number;
         step: number;
         accuracy_delta: number;
@@ -471,7 +520,7 @@ export type ExperimentQuery = {
       regularizer?: string | null;
     };
     bestStep: {
-      __typename?: 'ExperimentStepsEntity';
+      __typename?: 'ExperimentStepEntity';
       id: number;
       step: number;
       accuracy_delta: number;
@@ -539,7 +588,7 @@ export type BestExperimentQuery = {
       regularizer?: string | null;
     };
     bestStep: {
-      __typename?: 'ExperimentStepsEntity';
+      __typename?: 'ExperimentStepEntity';
       id: number;
       step: number;
       accuracy_delta: number;
@@ -616,7 +665,7 @@ export const RecordResultFragmentDoc = gql`
   ${ImageFragmentDoc}
 `;
 export const ExperimentStepFragmentDoc = gql`
-  fragment ExperimentStep on ExperimentStepsEntity {
+  fragment ExperimentStep on ExperimentStepEntity {
     id
     step
     accuracy_delta
@@ -770,6 +819,111 @@ export type ExperimentStepsSuspenseQueryHookResult = ReturnType<
 export type ExperimentStepsQueryResult = Apollo.QueryResult<
   ExperimentStepsQuery,
   ExperimentStepsQueryVariables
+>;
+export const ExperimentStepDocument = gql`
+  query ExperimentStep($experiment_id: Int!, $step_id: Int!) {
+    experimentStep(experiment_id: $experiment_id, step_id: $step_id) {
+      ...ExperimentStep
+    }
+  }
+  ${ExperimentStepFragmentDoc}
+`;
+
+/**
+ * __useExperimentStepQuery__
+ *
+ * To run a query within a React component, call `useExperimentStepQuery` and pass it any options that fit your needs.
+ * When your component renders, `useExperimentStepQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useExperimentStepQuery({
+ *   variables: {
+ *      experiment_id: // value for 'experiment_id'
+ *      step_id: // value for 'step_id'
+ *   },
+ * });
+ */
+export function useExperimentStepQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ExperimentStepQuery,
+    ExperimentStepQueryVariables
+  > &
+    (
+      | { variables: ExperimentStepQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ExperimentStepQuery, ExperimentStepQueryVariables>(
+    ExperimentStepDocument,
+    options,
+  );
+}
+export function useExperimentStepLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ExperimentStepQuery,
+    ExperimentStepQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ExperimentStepQuery, ExperimentStepQueryVariables>(
+    ExperimentStepDocument,
+    options,
+  );
+}
+// @ts-ignore
+export function useExperimentStepSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    ExperimentStepQuery,
+    ExperimentStepQueryVariables
+  >,
+): Apollo.UseSuspenseQueryResult<
+  ExperimentStepQuery,
+  ExperimentStepQueryVariables
+>;
+export function useExperimentStepSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        ExperimentStepQuery,
+        ExperimentStepQueryVariables
+      >,
+): Apollo.UseSuspenseQueryResult<
+  ExperimentStepQuery | undefined,
+  ExperimentStepQueryVariables
+>;
+export function useExperimentStepSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        ExperimentStepQuery,
+        ExperimentStepQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    ExperimentStepQuery,
+    ExperimentStepQueryVariables
+  >(ExperimentStepDocument, options);
+}
+export type ExperimentStepQueryHookResult = ReturnType<
+  typeof useExperimentStepQuery
+>;
+export type ExperimentStepLazyQueryHookResult = ReturnType<
+  typeof useExperimentStepLazyQuery
+>;
+export type ExperimentStepSuspenseQueryHookResult = ReturnType<
+  typeof useExperimentStepSuspenseQuery
+>;
+export type ExperimentStepQueryResult = Apollo.QueryResult<
+  ExperimentStepQuery,
+  ExperimentStepQueryVariables
 >;
 export const ExperimentsDocument = gql`
   query Experiments($pagination: PaginationInput!) {

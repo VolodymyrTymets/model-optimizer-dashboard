@@ -36,7 +36,7 @@ export const ModelSchemaFragment = gql`
 `;
 
 export const ExperimentStepFragment = gql`
-  fragment ExperimentStep on ExperimentStepsEntity {
+  fragment ExperimentStep on ExperimentStepEntity {
     id
     step
     accuracy_delta

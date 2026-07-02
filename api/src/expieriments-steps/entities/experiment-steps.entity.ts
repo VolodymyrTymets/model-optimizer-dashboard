@@ -56,7 +56,7 @@ export class ModelSchemaEntity extends BasicEntity {
 }
 
 @ObjectType()
-export class ExperimentStepsEntity extends BasicEntity {
+export class ExperimentStepEntity extends BasicEntity {
   @Field(() => Int, { description: 'experiment_id' })
   experiment_id: number;
   @Field(() => Date, { nullable: true, description: 'endAt' })
