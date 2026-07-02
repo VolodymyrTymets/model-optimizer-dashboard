@@ -8,13 +8,14 @@ import {
   TableRoot,
   TableRow,
 } from '@/components/tailgrids/core/table.tsx';
+import Image from '@/components/Image/Image.tsx';
 
 export default function ExperimentStep({
   step,
 }: {
   step: ExperimentStepsEntity;
 }) {
-  // const { schema } = step;
+  const { modelSchema } = step;
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="flex">
@@ -59,8 +60,10 @@ export default function ExperimentStep({
         </TableRoot>
       </div>
       <div className="flex flex-col gap-2">
-        <p className="text-text-100">Schema:</p>
-        <p className="text-text-50">Schema Component here</p>
+        <Image
+          className="max-w-[400px] object-contain"
+          image={modelSchema.plot}
+        />
       </div>
     </div>
   );

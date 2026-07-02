@@ -111,12 +111,16 @@ export type ExperimentStepsEntity = {
   /** id */
   id: Scalars['Int']['output'];
   modelSchema: ModelSchemaEntity;
+  /** recordResults */
+  recordResults?: Maybe<Array<RecordResultEntity>>;
   /** record_accuracy */
   record_accuracy: Scalars['Float']['output'];
   /** schema */
   schema: ModelSchemaEntity;
   /** step */
   step: Scalars['Int']['output'];
+  /** training_history_plot */
+  training_history_plot?: Maybe<ImageEntity>;
   /** validation_accuracy */
   validation_accuracy: Scalars['Float']['output'];
 };
@@ -125,6 +129,14 @@ export type ExperimentStepsPaginatedEntity = {
   __typename?: 'ExperimentStepsPaginatedEntity';
   collection: Array<ExperimentStepsEntity>;
   total: Scalars['Int']['output'];
+};
+
+export type ImageEntity = {
+  __typename?: 'ImageEntity';
+  /** base64 */
+  base64: Scalars['String']['output'];
+  /** id */
+  id: Scalars['Int']['output'];
 };
 
 export type ModelLayerEntity = {
@@ -165,6 +177,8 @@ export type ModelSchemaEntity = {
   modelLayers?: Maybe<Array<ModelLayerEntity>>;
   /** optimizer */
   optimizer: Scalars['String']['output'];
+  /** plot */
+  plot?: Maybe<ImageEntity>;
 };
 
 export type PaginationInput = {
@@ -201,11 +215,34 @@ export type QueryExperimentsArgs = {
   pagination: PaginationInput;
 };
 
+export type RecordResultEntity = {
+  __typename?: 'RecordResultEntity';
+  /** accuracy */
+  accuracy: Scalars['Float']['output'];
+  /** id */
+  id: Scalars['Int']['output'];
+  /** image */
+  image?: Maybe<ImageEntity>;
+};
+
 export type SortingInput = {
   /** sorting field */
   field: Scalars['String']['input'];
   /** sorting order */
   order: Scalars['String']['input'];
+};
+
+export type ImageFragment = {
+  __typename?: 'ImageEntity';
+  id: number;
+  base64: string;
+};
+
+export type RecordResultFragment = {
+  __typename?: 'RecordResultEntity';
+  id: number;
+  accuracy: number;
+  image?: { __typename?: 'ImageEntity'; id: number; base64: string } | null;
 };
 
 export type ModelSchemaFragment = {
@@ -217,6 +254,7 @@ export type ModelSchemaFragment = {
     activation?: string | null;
     units: number;
   }> | null;
+  plot?: { __typename?: 'ImageEntity'; id: number; base64: string } | null;
 };
 
 export type ExperimentStepFragment = {
@@ -235,7 +273,19 @@ export type ExperimentStepFragment = {
       activation?: string | null;
       units: number;
     }> | null;
+    plot?: { __typename?: 'ImageEntity'; id: number; base64: string } | null;
   };
+  training_history_plot?: {
+    __typename?: 'ImageEntity';
+    id: number;
+    base64: string;
+  } | null;
+  recordResults?: Array<{
+    __typename?: 'RecordResultEntity';
+    id: number;
+    accuracy: number;
+    image?: { __typename?: 'ImageEntity'; id: number; base64: string } | null;
+  }> | null;
 };
 
 export type ExperimentFragment = {
@@ -274,7 +324,19 @@ export type ExperimentFragment = {
         activation?: string | null;
         units: number;
       }> | null;
+      plot?: { __typename?: 'ImageEntity'; id: number; base64: string } | null;
     };
+    training_history_plot?: {
+      __typename?: 'ImageEntity';
+      id: number;
+      base64: string;
+    } | null;
+    recordResults?: Array<{
+      __typename?: 'RecordResultEntity';
+      id: number;
+      accuracy: number;
+      image?: { __typename?: 'ImageEntity'; id: number; base64: string } | null;
+    }> | null;
   };
 };
 
@@ -323,7 +385,27 @@ export type ExperimentsQuery = {
             activation?: string | null;
             units: number;
           }> | null;
+          plot?: {
+            __typename?: 'ImageEntity';
+            id: number;
+            base64: string;
+          } | null;
         };
+        training_history_plot?: {
+          __typename?: 'ImageEntity';
+          id: number;
+          base64: string;
+        } | null;
+        recordResults?: Array<{
+          __typename?: 'RecordResultEntity';
+          id: number;
+          accuracy: number;
+          image?: {
+            __typename?: 'ImageEntity';
+            id: number;
+            base64: string;
+          } | null;
+        }> | null;
       };
     }>;
   };
@@ -371,7 +453,27 @@ export type ExperimentQuery = {
           activation?: string | null;
           units: number;
         }> | null;
+        plot?: {
+          __typename?: 'ImageEntity';
+          id: number;
+          base64: string;
+        } | null;
       };
+      training_history_plot?: {
+        __typename?: 'ImageEntity';
+        id: number;
+        base64: string;
+      } | null;
+      recordResults?: Array<{
+        __typename?: 'RecordResultEntity';
+        id: number;
+        accuracy: number;
+        image?: {
+          __typename?: 'ImageEntity';
+          id: number;
+          base64: string;
+        } | null;
+      }> | null;
     };
   };
 };
@@ -416,11 +518,37 @@ export type BestExperimentQuery = {
           activation?: string | null;
           units: number;
         }> | null;
+        plot?: {
+          __typename?: 'ImageEntity';
+          id: number;
+          base64: string;
+        } | null;
       };
+      training_history_plot?: {
+        __typename?: 'ImageEntity';
+        id: number;
+        base64: string;
+      } | null;
+      recordResults?: Array<{
+        __typename?: 'RecordResultEntity';
+        id: number;
+        accuracy: number;
+        image?: {
+          __typename?: 'ImageEntity';
+          id: number;
+          base64: string;
+        } | null;
+      }> | null;
     };
   };
 };
 
+export const ImageFragmentDoc = gql`
+  fragment Image on ImageEntity {
+    id
+    base64
+  }
+`;
 export const ModelSchemaFragmentDoc = gql`
   fragment ModelSchema on ModelSchemaEntity {
     id
@@ -429,7 +557,21 @@ export const ModelSchemaFragmentDoc = gql`
       activation
       units
     }
+    plot {
+      ...Image
+    }
   }
+  ${ImageFragmentDoc}
+`;
+export const RecordResultFragmentDoc = gql`
+  fragment RecordResult on RecordResultEntity {
+    id
+    image {
+      ...Image
+    }
+    accuracy
+  }
+  ${ImageFragmentDoc}
 `;
 export const ExperimentStepFragmentDoc = gql`
   fragment ExperimentStep on ExperimentStepsEntity {
@@ -441,8 +583,16 @@ export const ExperimentStepFragmentDoc = gql`
     modelSchema {
       ...ModelSchema
     }
+    training_history_plot {
+      ...Image
+    }
+    recordResults {
+      ...RecordResult
+    }
   }
   ${ModelSchemaFragmentDoc}
+  ${ImageFragmentDoc}
+  ${RecordResultFragmentDoc}
 `;
 export const ExperimentFragmentDoc = gql`
   fragment Experiment on ExperimentEntity {

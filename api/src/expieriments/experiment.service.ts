@@ -78,6 +78,12 @@ export class ExperimentService extends PaginationService {
             modelLayers: true,
           },
         },
+        training_history_plot: true,
+        recordResults: {
+          include: {
+            image: true,
+          },
+        },
       },
     });
   }

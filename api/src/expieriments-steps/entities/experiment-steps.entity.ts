@@ -2,6 +2,25 @@ import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { BasicEntity } from '../../common/entity/basic.entity';
 
 @ObjectType()
+export class ImageEntity {
+  @Field(() => Int, { description: 'id' })
+  id: number;
+  @Field(() => String, { description: 'base64' })
+  base64: string;
+}
+
+@ObjectType()
+export class RecordResultEntity {
+  @Field(() => Int, { description: 'id' })
+  id: number;
+  @Field(() => Float, { description: 'accuracy' })
+  accuracy: number;
+
+  @Field(() => ImageEntity, { description: 'image', nullable: true })
+  image: ImageEntity;
+}
+
+@ObjectType()
 export class ModelLayerEntity extends BasicEntity {
   @Field(() => Int, { description: 'experiment_id' })
   experiment_id: number;
@@ -31,6 +50,9 @@ export class ModelSchemaEntity extends BasicEntity {
   loss: string;
   @Field(() => [ModelLayerEntity], { nullable: true, description: 'layers' })
   modelLayers: ModelLayerEntity[];
+
+  @Field(() => ImageEntity, { description: 'plot', nullable: true })
+  plot: ImageEntity;
 }
 
 @ObjectType()
@@ -55,4 +77,16 @@ export class ExperimentStepsEntity extends BasicEntity {
 
   @Field(() => ModelSchemaEntity, { description: 'schema' })
   schema: ModelSchemaEntity;
+
+  @Field(() => ImageEntity, {
+    description: 'training_history_plot',
+    nullable: true,
+  })
+  training_history_plot: ImageEntity;
+
+  @Field(() => [RecordResultEntity], {
+    description: 'recordResults',
+    nullable: true,
+  })
+  recordResults: RecordResultEntity[];
 }

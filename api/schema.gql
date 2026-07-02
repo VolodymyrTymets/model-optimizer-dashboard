@@ -85,6 +85,25 @@ type ExperimentPaginatedEntity {
   total: Int!
 }
 
+type ImageEntity {
+  """id"""
+  id: Int!
+
+  """base64"""
+  base64: String!
+}
+
+type RecordResultEntity {
+  """id"""
+  id: Int!
+
+  """accuracy"""
+  accuracy: Float!
+
+  """image"""
+  image: ImageEntity
+}
+
 type ModelLayerEntity {
   """id"""
   id: Int!
@@ -135,6 +154,9 @@ type ModelSchemaEntity {
 
   """layers"""
   modelLayers: [ModelLayerEntity!]
+
+  """plot"""
+  plot: ImageEntity
 }
 
 type ExperimentStepsEntity {
@@ -170,6 +192,12 @@ type ExperimentStepsEntity {
 
   """schema"""
   schema: ModelSchemaEntity!
+
+  """training_history_plot"""
+  training_history_plot: ImageEntity
+
+  """recordResults"""
+  recordResults: [RecordResultEntity!]
   modelSchema: ModelSchemaEntity!
 }
 

@@ -95,10 +95,8 @@ export default function Layout({
         <SidebarContainer />
         <div className="flex flex-1 flex-col">
           <Header />
-          <main className="flex-1 overflow-auto p-6 bg-background-50">
-            <div className="h-full rounded-xl border border-base-200 p-4">
-              <p className="text-sm text-text-400">{children}</p>
-            </div>
+          <main className="flex-1 overflow-auto p-4 bg-background-50 ">
+            {children}
           </main>
         </div>
       </SidebarProvider>

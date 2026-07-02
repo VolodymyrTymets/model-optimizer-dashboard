@@ -477,6 +477,26 @@
             "deprecationReason": null
           },
           {
+            "name": "recordResults",
+            "description": "recordResults",
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "name": null,
+                "kind": "NON_NULL",
+                "ofType": {
+                  "name": "RecordResultEntity",
+                  "kind": "OBJECT",
+                  "ofType": null
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "record_accuracy",
             "description": "record_accuracy",
             "args": [],
@@ -513,6 +533,14 @@
               "name": null,
               "ofType": { "name": "Int", "kind": "SCALAR", "ofType": null }
             },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "training_history_plot",
+            "description": "training_history_plot",
+            "args": [],
+            "type": { "kind": "OBJECT", "name": "ImageEntity", "ofType": null },
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -590,6 +618,42 @@
         "fields": null,
         "inputFields": null,
         "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ImageEntity",
+        "description": null,
+        "isOneOf": null,
+        "fields": [
+          {
+            "name": "base64",
+            "description": "base64",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": { "name": "String", "kind": "SCALAR", "ofType": null }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "id",
+            "description": "id",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": { "name": "Int", "kind": "SCALAR", "ofType": null }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -805,6 +869,14 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "plot",
+            "description": "plot",
+            "args": [],
+            "type": { "kind": "OBJECT", "name": "ImageEntity", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -986,6 +1058,50 @@
                 "ofType": null
               }
             },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "RecordResultEntity",
+        "description": null,
+        "isOneOf": null,
+        "fields": [
+          {
+            "name": "accuracy",
+            "description": "accuracy",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": { "name": "Float", "kind": "SCALAR", "ofType": null }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "id",
+            "description": "id",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": { "name": "Int", "kind": "SCALAR", "ofType": null }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "image",
+            "description": "image",
+            "args": [],
+            "type": { "kind": "OBJECT", "name": "ImageEntity", "ofType": null },
             "isDeprecated": false,
             "deprecationReason": null
           }

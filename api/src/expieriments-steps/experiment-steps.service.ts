@@ -37,6 +37,7 @@ export class ExperimentStepsService extends PaginationService {
       },
       include: {
         modelLayers: true,
+        plot: true,
       },
     });
   }
