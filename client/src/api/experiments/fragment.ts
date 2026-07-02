@@ -1,4 +1,6 @@
 import gql from 'graphql-tag';
+import { ExperimentStepFragment } from '../experiment-step/fragment';
+
 export const ExperimentFragment = gql`
   fragment Experiment on ExperimentEntity {
     id
@@ -18,10 +20,8 @@ export const ExperimentFragment = gql`
       regularizer
     }
     bestStep {
-      id
-      accuracy_delta
-      record_accuracy
-      validation_accuracy
+      ...ExperimentStep
     }
   }
+  ${ExperimentStepFragment}
 `;

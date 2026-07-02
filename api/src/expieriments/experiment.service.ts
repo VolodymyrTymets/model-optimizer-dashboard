@@ -72,6 +72,13 @@ export class ExperimentService extends PaginationService {
       orderBy: {
         accuracy_delta: 'desc',
       },
+      include: {
+        modelSchemas: {
+          include: {
+            modelLayers: true,
+          },
+        },
+      },
     });
   }
 }

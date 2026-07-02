@@ -110,6 +110,7 @@ export type ExperimentStepsEntity = {
   fingerprint: Scalars['String']['output'];
   /** id */
   id: Scalars['Int']['output'];
+  modelSchema: ModelSchemaEntity;
   /** record_accuracy */
   record_accuracy: Scalars['Float']['output'];
   /** schema */
@@ -129,7 +130,7 @@ export type ExperimentStepsPaginatedEntity = {
 export type ModelLayerEntity = {
   __typename?: 'ModelLayerEntity';
   /** activation */
-  activation: Scalars['String']['output'];
+  activation?: Maybe<Scalars['String']['output']>;
   /** createdAt */
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   /** experiment_id */
@@ -141,7 +142,7 @@ export type ModelLayerEntity = {
   /** model_schema_id */
   model_schema_id: Scalars['Int']['output'];
   /** regularizer */
-  regularizer: Scalars['String']['output'];
+  regularizer?: Maybe<Scalars['String']['output']>;
   /** type */
   type: Scalars['String']['output'];
   /** units */
@@ -207,6 +208,36 @@ export type SortingInput = {
   order: Scalars['String']['input'];
 };
 
+export type ModelSchemaFragment = {
+  __typename?: 'ModelSchemaEntity';
+  id: number;
+  modelLayers?: Array<{
+    __typename?: 'ModelLayerEntity';
+    regularizer?: string | null;
+    activation?: string | null;
+    units: number;
+  }> | null;
+};
+
+export type ExperimentStepFragment = {
+  __typename?: 'ExperimentStepsEntity';
+  id: number;
+  step: number;
+  accuracy_delta: number;
+  record_accuracy: number;
+  validation_accuracy: number;
+  modelSchema: {
+    __typename?: 'ModelSchemaEntity';
+    id: number;
+    modelLayers?: Array<{
+      __typename?: 'ModelLayerEntity';
+      regularizer?: string | null;
+      activation?: string | null;
+      units: number;
+    }> | null;
+  };
+};
+
 export type ExperimentFragment = {
   __typename?: 'ExperimentEntity';
   id: number;
@@ -230,9 +261,20 @@ export type ExperimentFragment = {
   bestStep: {
     __typename?: 'ExperimentStepsEntity';
     id: number;
+    step: number;
     accuracy_delta: number;
     record_accuracy: number;
     validation_accuracy: number;
+    modelSchema: {
+      __typename?: 'ModelSchemaEntity';
+      id: number;
+      modelLayers?: Array<{
+        __typename?: 'ModelLayerEntity';
+        regularizer?: string | null;
+        activation?: string | null;
+        units: number;
+      }> | null;
+    };
   };
 };
 
@@ -268,9 +310,20 @@ export type ExperimentsQuery = {
       bestStep: {
         __typename?: 'ExperimentStepsEntity';
         id: number;
+        step: number;
         accuracy_delta: number;
         record_accuracy: number;
         validation_accuracy: number;
+        modelSchema: {
+          __typename?: 'ModelSchemaEntity';
+          id: number;
+          modelLayers?: Array<{
+            __typename?: 'ModelLayerEntity';
+            regularizer?: string | null;
+            activation?: string | null;
+            units: number;
+          }> | null;
+        };
       };
     }>;
   };
@@ -305,9 +358,20 @@ export type ExperimentQuery = {
     bestStep: {
       __typename?: 'ExperimentStepsEntity';
       id: number;
+      step: number;
       accuracy_delta: number;
       record_accuracy: number;
       validation_accuracy: number;
+      modelSchema: {
+        __typename?: 'ModelSchemaEntity';
+        id: number;
+        modelLayers?: Array<{
+          __typename?: 'ModelLayerEntity';
+          regularizer?: string | null;
+          activation?: string | null;
+          units: number;
+        }> | null;
+      };
     };
   };
 };
@@ -339,13 +403,47 @@ export type BestExperimentQuery = {
     bestStep: {
       __typename?: 'ExperimentStepsEntity';
       id: number;
+      step: number;
       accuracy_delta: number;
       record_accuracy: number;
       validation_accuracy: number;
+      modelSchema: {
+        __typename?: 'ModelSchemaEntity';
+        id: number;
+        modelLayers?: Array<{
+          __typename?: 'ModelLayerEntity';
+          regularizer?: string | null;
+          activation?: string | null;
+          units: number;
+        }> | null;
+      };
     };
   };
 };
 
+export const ModelSchemaFragmentDoc = gql`
+  fragment ModelSchema on ModelSchemaEntity {
+    id
+    modelLayers {
+      regularizer
+      activation
+      units
+    }
+  }
+`;
+export const ExperimentStepFragmentDoc = gql`
+  fragment ExperimentStep on ExperimentStepsEntity {
+    id
+    step
+    accuracy_delta
+    record_accuracy
+    validation_accuracy
+    modelSchema {
+      ...ModelSchema
+    }
+  }
+  ${ModelSchemaFragmentDoc}
+`;
 export const ExperimentFragmentDoc = gql`
   fragment Experiment on ExperimentEntity {
     id
@@ -365,12 +463,10 @@ export const ExperimentFragmentDoc = gql`
       regularizer
     }
     bestStep {
-      id
-      accuracy_delta
-      record_accuracy
-      validation_accuracy
+      ...ExperimentStep
     }
   }
+  ${ExperimentStepFragmentDoc}
 `;
 export const ExperimentsDocument = gql`
   query Experiments($pagination: PaginationInput!) {

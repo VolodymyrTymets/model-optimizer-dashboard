@@ -13,9 +13,9 @@ export class ModelLayerEntity extends BasicEntity {
   type: string;
   @Field(() => Int, { description: 'units' })
   units: number;
-  @Field(() => String, { description: 'activation' })
+  @Field(() => String, { description: 'activation', nullable: true })
   activation: string;
-  @Field(() => String, { description: 'regularizer' })
+  @Field(() => String, { description: 'regularizer', nullable: true })
   regularizer: string;
 }
 

@@ -43,7 +43,7 @@ export class ExperimentStepsResolver {
     );
   }
   @ResolveField(() => ModelSchemaEntity)
-  async schema(@Parent() step: ExperimentStepsEntity) {
+  async modelSchema(@Parent() step: ExperimentStepsEntity) {
     return this.experimentsStepService.findExperimentStepSchema(step.id);
   }
 }

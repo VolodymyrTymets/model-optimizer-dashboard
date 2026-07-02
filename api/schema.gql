@@ -108,10 +108,10 @@ type ModelLayerEntity {
   units: Int!
 
   """activation"""
-  activation: String!
+  activation: String
 
   """regularizer"""
-  regularizer: String!
+  regularizer: String
 }
 
 type ModelSchemaEntity {
@@ -170,6 +170,7 @@ type ExperimentStepsEntity {
 
   """schema"""
   schema: ModelSchemaEntity!
+  modelSchema: ModelSchemaEntity!
 }
 
 type ExperimentStepsPaginatedEntity {

@@ -8,13 +8,14 @@ import {
 import ExperimentDetails from '@/containers/experiment/components/ExperimentDetails/ExperimentDetails.tsx';
 import ExperimentDataSetDetails from '@/containers/experiment/components/ExperimentDataSetDetails/ExperimentDataSetDetails.tsx';
 import ExperimentSteps from '@/containers/experiment/components/ExperimentSteps/ExperimentSteps.tsx';
+import ExperimentStep from '@/containers/ExperimentStep/ExperimentStep.tsx';
 
 export default function Experiment({
   experiment,
 }: {
   experiment: ExperimentEntity;
 }) {
-  const { details, dataSetDetails } = experiment;
+  const { details, dataSetDetails, bestStep } = experiment;
   return (
     <div className="w-full">
       <TabRoot defaultValue="overview" variant="default">
@@ -25,7 +26,7 @@ export default function Experiment({
           <TabTrigger value="steps">Steps</TabTrigger>
         </TabList>
         <TabContent value="overview">
-          <p>Overview</p>
+          <ExperimentStep step={bestStep} />
         </TabContent>
         <TabContent value="details">
           <ExperimentDetails details={details} />
