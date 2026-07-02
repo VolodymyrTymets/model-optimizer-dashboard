@@ -1,1 +1,5 @@
-export default function Experiment() { return <h1>Experiment</h1> }
+import ExperimentContainer from '@/containers/ExperimentContainer/ExperimentContainer.tsx';
+
+export default function Experiment() {
+  return <ExperimentContainer />;
+}

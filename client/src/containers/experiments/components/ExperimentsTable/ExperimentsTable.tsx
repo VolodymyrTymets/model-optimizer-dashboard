@@ -8,6 +8,9 @@ import {
 } from '@/components/tailgrids/core/table';
 import { Badge } from '@/components/tailgrids/core/badge';
 import { type ExperimentFragment } from '@/api/generated.graphql.tsx';
+import { Link } from '@/components/tailgrids/core/link.tsx';
+import { EXPERIMENT } from '@/routes/routes.ts';
+import { ArrowRight } from '@tailgrids/icons';
 
 export default function ExperimentsTable({
   experiments,
@@ -20,9 +23,11 @@ export default function ExperimentsTable({
         <TableHeader>
           <TableRow className="[&>th]:text-title-50 [&>th]:font-semibold">
             <TableHead scope="col">#</TableHead>
+            <TableHead scope="col">Delta Accuracy</TableHead>
             <TableHead scope="col">Layers</TableHead>
             <TableHead scope="col">Data Set Details </TableHead>
             <TableHead scope="col"> Ended </TableHead>
+            <TableHead scope="col"></TableHead>
           </TableRow>
         </TableHeader>
 
@@ -34,6 +39,12 @@ export default function ExperimentsTable({
                 className="font-medium text-title-50 whitespace-nowrap"
               >
                 {item.id}
+              </TableCell>
+              <TableCell
+                scope="row"
+                className="font-medium text-title-50 whitespace-nowrap"
+              >
+                {item.bestStep.accuracy_delta.toFixed(2)} %
               </TableCell>
               <TableCell
                 scope="row"
@@ -61,6 +72,15 @@ export default function ExperimentsTable({
                 >
                   {!item.endAt ? 'In progress' : 'Done'}
                 </Badge>
+              </TableCell>
+              <TableCell>
+                <Link
+                  variant="primary"
+                  size="md"
+                  href={EXPERIMENT.replace(':experimentId', item.id.toString())}
+                >
+                  <ArrowRight />
+                </Link>
               </TableCell>
             </TableRow>
           ))}
