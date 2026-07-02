@@ -288,6 +288,27 @@ export type ExperimentStepFragment = {
   }> | null;
 };
 
+export type ExperimentStepsQueryVariables = Exact<{
+  experiment_id: Scalars['Int']['input'];
+  pagination: PaginationInput;
+}>;
+
+export type ExperimentStepsQuery = {
+  __typename?: 'Query';
+  experimentSteps: {
+    __typename?: 'ExperimentStepsPaginatedEntity';
+    total: number;
+    collection: Array<{
+      __typename?: 'ExperimentStepsEntity';
+      id: number;
+      step: number;
+      accuracy_delta: number;
+      record_accuracy: number;
+      validation_accuracy: number;
+    }>;
+  };
+};
+
 export type ExperimentFragment = {
   __typename?: 'ExperimentEntity';
   id: number;
@@ -618,6 +639,117 @@ export const ExperimentFragmentDoc = gql`
   }
   ${ExperimentStepFragmentDoc}
 `;
+export const ExperimentStepsDocument = gql`
+  query ExperimentSteps($experiment_id: Int!, $pagination: PaginationInput!) {
+    experimentSteps(experiment_id: $experiment_id, pagination: $pagination) {
+      collection {
+        id
+        step
+        accuracy_delta
+        record_accuracy
+        validation_accuracy
+      }
+      total
+    }
+  }
+`;
+
+/**
+ * __useExperimentStepsQuery__
+ *
+ * To run a query within a React component, call `useExperimentStepsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useExperimentStepsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useExperimentStepsQuery({
+ *   variables: {
+ *      experiment_id: // value for 'experiment_id'
+ *      pagination: // value for 'pagination'
+ *   },
+ * });
+ */
+export function useExperimentStepsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ExperimentStepsQuery,
+    ExperimentStepsQueryVariables
+  > &
+    (
+      | { variables: ExperimentStepsQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ExperimentStepsQuery, ExperimentStepsQueryVariables>(
+    ExperimentStepsDocument,
+    options,
+  );
+}
+export function useExperimentStepsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ExperimentStepsQuery,
+    ExperimentStepsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    ExperimentStepsQuery,
+    ExperimentStepsQueryVariables
+  >(ExperimentStepsDocument, options);
+}
+// @ts-ignore
+export function useExperimentStepsSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    ExperimentStepsQuery,
+    ExperimentStepsQueryVariables
+  >,
+): Apollo.UseSuspenseQueryResult<
+  ExperimentStepsQuery,
+  ExperimentStepsQueryVariables
+>;
+export function useExperimentStepsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        ExperimentStepsQuery,
+        ExperimentStepsQueryVariables
+      >,
+): Apollo.UseSuspenseQueryResult<
+  ExperimentStepsQuery | undefined,
+  ExperimentStepsQueryVariables
+>;
+export function useExperimentStepsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        ExperimentStepsQuery,
+        ExperimentStepsQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    ExperimentStepsQuery,
+    ExperimentStepsQueryVariables
+  >(ExperimentStepsDocument, options);
+}
+export type ExperimentStepsQueryHookResult = ReturnType<
+  typeof useExperimentStepsQuery
+>;
+export type ExperimentStepsLazyQueryHookResult = ReturnType<
+  typeof useExperimentStepsLazyQuery
+>;
+export type ExperimentStepsSuspenseQueryHookResult = ReturnType<
+  typeof useExperimentStepsSuspenseQuery
+>;
+export type ExperimentStepsQueryResult = Apollo.QueryResult<
+  ExperimentStepsQuery,
+  ExperimentStepsQueryVariables
+>;
 export const ExperimentsDocument = gql`
   query Experiments($pagination: PaginationInput!) {
     experiments(pagination: $pagination) {

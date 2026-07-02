@@ -15,7 +15,7 @@ export default function RecordResults({
         recordResults.map((recordResult) => (
           <div
             className="flex flex-col gap-1"
-            key={`${recordResult.__typename}$-{recordResult.id}`}
+            key={`${recordResult.__typename}-${recordResult.id}`}
           >
             <p className="text-lg text-text-50">
               Accuracy: {recordResult.accuracy} %

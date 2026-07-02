@@ -8,12 +8,12 @@ export default function Experiments() {
   const { data, loading, error } = useExperimentsQuery({
     variables: {
       pagination: {
-        take: 10,
+        take: 100,
       },
     },
   });
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;
-  if (!data.experiments) return <NoData />;
+  if (!data.experiments.collection.length) return <NoData />;
   return <ExperimentsTable experiments={data.experiments.collection} />;
 }
