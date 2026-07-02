@@ -8,7 +8,7 @@ import {
   TableRoot,
   TableRow,
 } from '@/components/tailgrids/core/table';
-import { type ExperimentStepsEntity } from '@/api/generated.graphql.tsx';
+import { type ExperimentStepEntity } from '@/api/generated.graphql.tsx';
 import { STEP } from '@/routes/routes.ts';
 
 export default function ExperimentStepsTable({
@@ -16,7 +16,7 @@ export default function ExperimentStepsTable({
   experimentSteps,
 }: {
   experiment_id: number;
-  experimentSteps: ExperimentStepsEntity[];
+  experimentSteps: ExperimentStepEntity[];
 }) {
   return (
     <>

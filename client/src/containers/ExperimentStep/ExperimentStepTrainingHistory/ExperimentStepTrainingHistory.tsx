@@ -1,4 +1,4 @@
-import type { ExperimentStepsEntity } from '@/api/generated.graphql.tsx';
+import type { ExperimentStepEntity } from '@/api/generated.graphql.tsx';
 
 import Image from '@/components/Image/Image.tsx';
 import { NoData } from '@/components/NoData/NoData.tsx';
@@ -6,7 +6,7 @@ import { NoData } from '@/components/NoData/NoData.tsx';
 export default function ExperimentStepTrainingHistory({
   step,
 }: {
-  step: ExperimentStepsEntity;
+  step: ExperimentStepEntity;
 }) {
   if (!step.training_history_plot) return <NoData />;
   return (

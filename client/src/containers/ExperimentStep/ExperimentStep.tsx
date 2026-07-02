@@ -1,4 +1,4 @@
-import type { ExperimentStepsEntity } from '@/api/generated.graphql.tsx';
+import type { ExperimentStepEntity } from '@/api/generated.graphql.tsx';
 
 import {
   TableBody,
@@ -8,12 +8,12 @@ import {
   TableRoot,
   TableRow,
 } from '@/components/tailgrids/core/table.tsx';
-import ModelSchema from "@/containers/ModelSchema/ModelSchema.tsx";
+import ModelSchema from '@/containers/ModelSchema/ModelSchema.tsx';
 
 export default function ExperimentStep({
   step,
 }: {
-  step: ExperimentStepsEntity;
+  step: ExperimentStepEntity;
 }) {
   const { modelSchema } = step;
   return (
