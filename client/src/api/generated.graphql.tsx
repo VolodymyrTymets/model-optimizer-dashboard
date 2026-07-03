@@ -75,7 +75,8 @@ export type ExperimentDetailsEntity = {
 
 export type ExperimentEntity = {
   __typename?: 'ExperimentEntity';
-  bestStep: ExperimentStepEntity;
+  /** bestStep */
+  bestStep?: Maybe<ExperimentStepEntity>;
   /** createdAt */
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   /** dataSetDetails */
@@ -391,7 +392,7 @@ export type ExperimentFragment = {
     loss: string;
     regularizer?: string | null;
   };
-  bestStep: {
+  bestStep?: {
     __typename?: 'ExperimentStepEntity';
     id: number;
     step: number;
@@ -425,7 +426,7 @@ export type ExperimentFragment = {
       name: string;
       image?: { __typename?: 'ImageEntity'; id: number; base64: string } | null;
     }> | null;
-  };
+  } | null;
 };
 
 export type ExperimentsQueryVariables = Exact<{
@@ -457,7 +458,7 @@ export type ExperimentsQuery = {
         loss: string;
         regularizer?: string | null;
       };
-      bestStep: {
+      bestStep?: {
         __typename?: 'ExperimentStepEntity';
         id: number;
         step: number;
@@ -499,7 +500,7 @@ export type ExperimentsQuery = {
             base64: string;
           } | null;
         }> | null;
-      };
+      } | null;
     }>;
   };
 };
@@ -530,7 +531,7 @@ export type ExperimentQuery = {
       loss: string;
       regularizer?: string | null;
     };
-    bestStep: {
+    bestStep?: {
       __typename?: 'ExperimentStepEntity';
       id: number;
       step: number;
@@ -572,7 +573,7 @@ export type ExperimentQuery = {
           base64: string;
         } | null;
       }> | null;
-    };
+    } | null;
   };
 };
 
@@ -600,7 +601,7 @@ export type BestExperimentQuery = {
       loss: string;
       regularizer?: string | null;
     };
-    bestStep: {
+    bestStep?: {
       __typename?: 'ExperimentStepEntity';
       id: number;
       step: number;
@@ -642,7 +643,7 @@ export type BestExperimentQuery = {
           base64: string;
         } | null;
       }> | null;
-    };
+    } | null;
   };
 };
 

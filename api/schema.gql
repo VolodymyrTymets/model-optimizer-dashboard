@@ -2,89 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ExperimentDetailsEntity {
-  """id"""
-  id: Int!
-
-  """createdAt"""
-  createdAt: DateTime
-
-  """regularizer"""
-  experiment_id: Int!
-
-  """layers"""
-  layers: String!
-
-  """activation"""
-  activation: String!
-
-  """optimizer"""
-  optimizer: String!
-
-  """regularizer"""
-  regularizer: String
-
-  """loss"""
-  loss: String!
-
-  """epochs"""
-  epochs: Int!
-
-  """batch_size"""
-  batch_size: Int!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type ExperimentDataSetDetailsEntity {
-  """id"""
-  id: Int!
-
-  """createdAt"""
-  createdAt: DateTime
-
-  """regularizer"""
-  experiment_id: Int!
-
-  """  duration"""
-  duration: Float!
-
-  """labels"""
-  labels: String!
-
-  """argumentation_types"""
-  argumentation_types: String!
-
-  """af_type"""
-  af_type: String!
-}
-
-type ExperimentEntity {
-  """id"""
-  id: Int!
-
-  """createdAt"""
-  createdAt: DateTime
-
-  """endAt"""
-  endAt: DateTime
-
-  """details"""
-  details: ExperimentDetailsEntity!
-
-  """dataSetDetails"""
-  dataSetDetails: ExperimentDataSetDetailsEntity!
-  bestStep: ExperimentStepEntity!
-}
-
-type ExperimentPaginatedEntity {
-  collection: [ExperimentEntity!]!
-  total: Int!
-}
-
 type ImageEntity {
   """id"""
   id: Int!
@@ -135,6 +52,11 @@ type ModelLayerEntity {
   """regularizer"""
   regularizer: String
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type ModelSchemaEntity {
   """id"""
@@ -202,6 +124,86 @@ type ExperimentStepEntity {
   """recordResults"""
   recordResults: [RecordResultEntity!]
   modelSchema: ModelSchemaEntity!
+}
+
+type ExperimentDetailsEntity {
+  """id"""
+  id: Int!
+
+  """createdAt"""
+  createdAt: DateTime
+
+  """regularizer"""
+  experiment_id: Int!
+
+  """layers"""
+  layers: String!
+
+  """activation"""
+  activation: String!
+
+  """optimizer"""
+  optimizer: String!
+
+  """regularizer"""
+  regularizer: String
+
+  """loss"""
+  loss: String!
+
+  """epochs"""
+  epochs: Int!
+
+  """batch_size"""
+  batch_size: Int!
+}
+
+type ExperimentDataSetDetailsEntity {
+  """id"""
+  id: Int!
+
+  """createdAt"""
+  createdAt: DateTime
+
+  """regularizer"""
+  experiment_id: Int!
+
+  """  duration"""
+  duration: Float!
+
+  """labels"""
+  labels: String!
+
+  """argumentation_types"""
+  argumentation_types: String!
+
+  """af_type"""
+  af_type: String!
+}
+
+type ExperimentEntity {
+  """id"""
+  id: Int!
+
+  """createdAt"""
+  createdAt: DateTime
+
+  """endAt"""
+  endAt: DateTime
+
+  """details"""
+  details: ExperimentDetailsEntity!
+
+  """dataSetDetails"""
+  dataSetDetails: ExperimentDataSetDetailsEntity!
+
+  """bestStep"""
+  bestStep: ExperimentStepEntity
+}
+
+type ExperimentPaginatedEntity {
+  collection: [ExperimentEntity!]!
+  total: Int!
 }
 
 type ExperimentStepsPaginatedEntity {

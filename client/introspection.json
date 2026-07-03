@@ -250,16 +250,12 @@
         "fields": [
           {
             "name": "bestStep",
-            "description": null,
+            "description": "bestStep",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "name": "ExperimentStepEntity",
-                "kind": "OBJECT",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "ExperimentStepEntity",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null

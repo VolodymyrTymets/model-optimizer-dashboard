@@ -44,7 +44,8 @@ export default function ExperimentsTable({
                 scope="row"
                 className="font-medium text-title-50 whitespace-nowrap"
               >
-                {item.bestStep.accuracy_delta.toFixed(2)} %
+                {item.bestStep ? item.bestStep.accuracy_delta.toFixed(2) : '-'}{' '}
+                %
               </TableCell>
               <TableCell
                 scope="row"
@@ -74,13 +75,18 @@ export default function ExperimentsTable({
                 </Badge>
               </TableCell>
               <TableCell>
-                <Link
-                  variant="primary"
-                  size="md"
-                  href={EXPERIMENT.replace(':experimentId', item.id.toString())}
-                >
-                  <ArrowRight />
-                </Link>
+                {item.endAt && (
+                  <Link
+                    variant="primary"
+                    size="md"
+                    href={EXPERIMENT.replace(
+                      ':experimentId',
+                      item.id.toString(),
+                    )}
+                  >
+                    <ArrowRight />
+                  </Link>
+                )}
               </TableCell>
             </TableRow>
           ))}
