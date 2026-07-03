@@ -2,6 +2,28 @@ import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { BasicEntity } from '../../common/entity/basic.entity';
 
 @ObjectType()
+export class ImageEntity {
+  @Field(() => Int, { description: 'id' })
+  id: number;
+  @Field(() => String, { description: 'base64' })
+  base64: string;
+}
+
+@ObjectType()
+export class RecordResultEntity {
+  @Field(() => Int, { description: 'id' })
+  id: number;
+  @Field(() => Float, { description: 'accuracy' })
+  accuracy: number;
+
+  @Field(() => String, { description: 'name' })
+  name: string;
+
+  @Field(() => ImageEntity, { description: 'image', nullable: true })
+  image: ImageEntity;
+}
+
+@ObjectType()
 export class ModelLayerEntity extends BasicEntity {
   @Field(() => Int, { description: 'experiment_id' })
   experiment_id: number;
@@ -13,9 +35,9 @@ export class ModelLayerEntity extends BasicEntity {
   type: string;
   @Field(() => Int, { description: 'units' })
   units: number;
-  @Field(() => String, { description: 'activation' })
+  @Field(() => String, { description: 'activation', nullable: true })
   activation: string;
-  @Field(() => String, { description: 'regularizer' })
+  @Field(() => String, { description: 'regularizer', nullable: true })
   regularizer: string;
 }
 
@@ -31,10 +53,13 @@ export class ModelSchemaEntity extends BasicEntity {
   loss: string;
   @Field(() => [ModelLayerEntity], { nullable: true, description: 'layers' })
   modelLayers: ModelLayerEntity[];
+
+  @Field(() => ImageEntity, { description: 'plot', nullable: true })
+  plot: ImageEntity;
 }
 
 @ObjectType()
-export class ExperimentStepsEntity extends BasicEntity {
+export class ExperimentStepEntity extends BasicEntity {
   @Field(() => Int, { description: 'experiment_id' })
   experiment_id: number;
   @Field(() => Date, { nullable: true, description: 'endAt' })
@@ -55,4 +80,16 @@ export class ExperimentStepsEntity extends BasicEntity {
 
   @Field(() => ModelSchemaEntity, { description: 'schema' })
   schema: ModelSchemaEntity;
+
+  @Field(() => ImageEntity, {
+    description: 'training_history_plot',
+    nullable: true,
+  })
+  training_history_plot: ImageEntity;
+
+  @Field(() => [RecordResultEntity], {
+    description: 'recordResults',
+    nullable: true,
+  })
+  recordResults: RecordResultEntity[];
 }

@@ -66,16 +66,19 @@ model ExperimentStep {
   createdAt     DateTime? @default(now())
   experiment_id Int
 
-  step                Int
-  fingerprint         String
-  record_accuracy     Float  @default(0)
-  validation_accuracy Float  @default(0)
-  accuracy_delta      Float  @default(0)
-  epochs              Int    @default(0)
+  step                     Int
+  fingerprint              String
+  record_accuracy          Float  @default(0)
+  validation_accuracy      Float  @default(0)
+  accuracy_delta           Float  @default(0)
+  epochs                   Int    @default(0)
+  training_history_plot_id Int
 
-  Expirement   Experiment    @relation(fields: [experiment_id], references: [id])
-  modelSchemas ModelSchema[]
-  modelLayers  ModelLayer[]
+  Expirement            Experiment     @relation(fields: [experiment_id], references: [id])
+  modelSchemas          ModelSchema[]
+  modelLayers           ModelLayer[]
+  training_history_plot Image          @relation(fields: [training_history_plot_id], references: [id])
+  recordResults         RecordResult[]
 
   @@map("experiment_step")
 }
@@ -87,10 +90,12 @@ model ModelSchema {
   experiment_step_id Int
   optimizer          String
   loss               String
+  plot_id            Int
 
   Expirement     Experiment     @relation(fields: [experiment_id], references: [id])
   ExperimentStep ExperimentStep @relation(fields: [experiment_step_id], references: [id])
   modelLayers    ModelLayer[]
+  plot           Image          @relation(fields: [plot_id], references: [id])
 
   @@map("model_schema")
 }
@@ -112,4 +117,27 @@ model ModelLayer {
   ModelSchema    ModelSchema    @relation(fields: [model_schema_id], references: [id])
 
   @@map("model_layer")
+}
+
+model Image {
+  id              Int              @id @unique @default(autoincrement())
+  base64          String
+  modelSchemas    ModelSchema[]
+  experimentSteps ExperimentStep[]
+  recordResults   RecordResult[]
+
+  @@map("image")
+}
+
+model RecordResult {
+  id                 Int    @id @unique @default(autoincrement())
+  experiment_step_id Int
+  image_id           Int
+  accuracy           Float
+  name               String
+
+  ExperimentStep ExperimentStep @relation(fields: [experiment_step_id], references: [id])
+  image          Image          @relation(fields: [image_id], references: [id])
+
+  @@map("record_result")
 }

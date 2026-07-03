@@ -1,0 +1,1 @@
+export default function Schema() { return <h1>Schema</h1> }

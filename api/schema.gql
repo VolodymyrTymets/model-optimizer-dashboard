@@ -2,6 +2,130 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type ImageEntity {
+  """id"""
+  id: Int!
+
+  """base64"""
+  base64: String!
+}
+
+type RecordResultEntity {
+  """id"""
+  id: Int!
+
+  """accuracy"""
+  accuracy: Float!
+
+  """name"""
+  name: String!
+
+  """image"""
+  image: ImageEntity
+}
+
+type ModelLayerEntity {
+  """id"""
+  id: Int!
+
+  """createdAt"""
+  createdAt: DateTime
+
+  """experiment_id"""
+  experiment_id: Int!
+
+  """experiment_step_id"""
+  experiment_step_id: Int!
+
+  """model_schema_id"""
+  model_schema_id: Int!
+
+  """type"""
+  type: String!
+
+  """units"""
+  units: Int!
+
+  """activation"""
+  activation: String
+
+  """regularizer"""
+  regularizer: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ModelSchemaEntity {
+  """id"""
+  id: Int!
+
+  """createdAt"""
+  createdAt: DateTime
+
+  """experiment_id"""
+  experiment_id: Int!
+
+  """experiment_step_id"""
+  experiment_step_id: Int!
+
+  """optimizer"""
+  optimizer: String!
+
+  """loss"""
+  loss: String!
+
+  """layers"""
+  modelLayers: [ModelLayerEntity!]
+
+  """plot"""
+  plot: ImageEntity
+}
+
+type ExperimentStepEntity {
+  """id"""
+  id: Int!
+
+  """createdAt"""
+  createdAt: DateTime
+
+  """experiment_id"""
+  experiment_id: Int!
+
+  """endAt"""
+  endAt: DateTime
+
+  """step"""
+  step: Int!
+
+  """fingerprint"""
+  fingerprint: String!
+
+  """record_accuracy"""
+  record_accuracy: Float!
+
+  """validation_accuracy"""
+  validation_accuracy: Float!
+
+  """accuracy_delta"""
+  accuracy_delta: Float!
+
+  """epochs"""
+  epochs: Int!
+
+  """schema"""
+  schema: ModelSchemaEntity!
+
+  """training_history_plot"""
+  training_history_plot: ImageEntity
+
+  """recordResults"""
+  recordResults: [RecordResultEntity!]
+  modelSchema: ModelSchemaEntity!
+}
+
 type ExperimentDetailsEntity {
   """id"""
   id: Int!
@@ -33,11 +157,6 @@ type ExperimentDetailsEntity {
   """batch_size"""
   batch_size: Int!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type ExperimentDataSetDetailsEntity {
   """id"""
@@ -77,6 +196,9 @@ type ExperimentEntity {
 
   """dataSetDetails"""
   dataSetDetails: ExperimentDataSetDetailsEntity!
+
+  """bestStep"""
+  bestStep: ExperimentStepEntity
 }
 
 type ExperimentPaginatedEntity {
@@ -84,95 +206,8 @@ type ExperimentPaginatedEntity {
   total: Int!
 }
 
-type ModelLayerEntity {
-  """id"""
-  id: Int!
-
-  """createdAt"""
-  createdAt: DateTime
-
-  """experiment_id"""
-  experiment_id: Int!
-
-  """experiment_step_id"""
-  experiment_step_id: Int!
-
-  """model_schema_id"""
-  model_schema_id: Int!
-
-  """type"""
-  type: String!
-
-  """units"""
-  units: Int!
-
-  """activation"""
-  activation: String!
-
-  """regularizer"""
-  regularizer: String!
-}
-
-type ModelSchemaEntity {
-  """id"""
-  id: Int!
-
-  """createdAt"""
-  createdAt: DateTime
-
-  """experiment_id"""
-  experiment_id: Int!
-
-  """experiment_step_id"""
-  experiment_step_id: Int!
-
-  """optimizer"""
-  optimizer: String!
-
-  """loss"""
-  loss: String!
-
-  """layers"""
-  modelLayers: [ModelLayerEntity!]
-}
-
-type ExperimentStepsEntity {
-  """id"""
-  id: Int!
-
-  """createdAt"""
-  createdAt: DateTime
-
-  """experiment_id"""
-  experiment_id: Int!
-
-  """endAt"""
-  endAt: DateTime
-
-  """step"""
-  step: Int!
-
-  """fingerprint"""
-  fingerprint: String!
-
-  """record_accuracy"""
-  record_accuracy: Float!
-
-  """validation_accuracy"""
-  validation_accuracy: Float!
-
-  """accuracy_delta"""
-  accuracy_delta: Float!
-
-  """epochs"""
-  epochs: Int!
-
-  """schema"""
-  schema: ModelSchemaEntity!
-}
-
 type ExperimentStepsPaginatedEntity {
-  collection: [ExperimentStepsEntity!]!
+  collection: [ExperimentStepEntity!]!
   total: Int!
 }
 
@@ -180,8 +215,17 @@ type Query {
   """Get Experiments with pagination"""
   experiments(pagination: PaginationInput!): ExperimentPaginatedEntity!
 
+  """Get Single Experiment"""
+  experiment(experiment_id: Int!): ExperimentEntity!
+
+  """Get Best Experiment"""
+  bestExperiment: ExperimentEntity!
+
   """Get Experiments Steps with pagination"""
-  experimentSteps(pagination: PaginationInput!, experiment_id: Float!): ExperimentStepsPaginatedEntity!
+  experimentSteps(pagination: PaginationInput!, experiment_id: Int!): ExperimentStepsPaginatedEntity!
+
+  """Get Experiment Steps """
+  experimentStep(step_id: Int!, experiment_id: Int!): ExperimentStepEntity!
 }
 
 input PaginationInput {

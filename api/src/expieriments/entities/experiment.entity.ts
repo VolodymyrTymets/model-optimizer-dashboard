@@ -1,5 +1,6 @@
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { BasicEntity } from '../../common/entity/basic.entity';
+import { ExperimentStepEntity } from '../../expieriments-steps/entities/experiment-steps.entity';
 
 @ObjectType()
 export class ExperimentDetailsEntity extends BasicEntity {
@@ -46,4 +47,10 @@ export class ExperimentEntity extends BasicEntity {
     description: 'dataSetDetails',
   })
   dataSetDetails: ExperimentDataSetDetailsEntity;
+
+  @Field(() => ExperimentStepEntity, {
+    description: 'bestStep',
+    nullable: true,
+  })
+  bestStep: ExperimentStepEntity;
 }

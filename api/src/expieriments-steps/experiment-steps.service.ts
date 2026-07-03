@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ExperimentStepFindFirstArgs } from '../prisma/generated/models';
 import { PaginationService } from '../common/pagination.service';
-import { ExperimentStepsEntity } from './entities/experiment-steps.entity';
+import { ExperimentStepEntity } from './entities/experiment-steps.entity';
 import { PrismaService } from '../prisma/prisma.service';
 import { GraphQLResolveInfo } from 'graphql/type';
 
@@ -18,7 +18,7 @@ export class ExperimentStepsService extends PaginationService {
   ) {
     return this.findAllPaginated<
       ExperimentStepFindFirstArgs,
-      ExperimentStepsEntity
+      ExperimentStepEntity
     >(
       'experimentStep',
       {
@@ -37,6 +37,15 @@ export class ExperimentStepsService extends PaginationService {
       },
       include: {
         modelLayers: true,
+        plot: true,
+      },
+    });
+  }
+  findExperimentStep(experiment_id: number, step_id: number) {
+    return this.prismaService.experimentStep.findFirst({
+      where: {
+        experiment_id,
+        id: step_id,
       },
     });
   }
