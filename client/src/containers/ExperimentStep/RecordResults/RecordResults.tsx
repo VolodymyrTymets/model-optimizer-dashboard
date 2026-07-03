@@ -17,10 +17,14 @@ export default function RecordResults({
             className="flex flex-col gap-1"
             key={`${recordResult.__typename}-${recordResult.id}`}
           >
-            <p className="text-lg text-text-50">
-              Accuracy: {recordResult.accuracy} %
+            <p className="text-md text-text-50">
+              <span className="font-bold">{recordResult.accuracy} % - </span>
+              {recordResult.name}
             </p>
-            <Image className="object-contain" image={recordResult.image} />
+            <Image
+              className="object-contain h-[100px]"
+              image={recordResult.image}
+            />
           </div>
         ))}
     </div>

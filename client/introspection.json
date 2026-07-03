@@ -1145,6 +1145,18 @@
             "type": { "kind": "OBJECT", "name": "ImageEntity", "ofType": null },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "name",
+            "description": "name",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": { "name": "String", "kind": "SCALAR", "ofType": null }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,

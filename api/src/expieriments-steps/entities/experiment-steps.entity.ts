@@ -16,6 +16,9 @@ export class RecordResultEntity {
   @Field(() => Float, { description: 'accuracy' })
   accuracy: number;
 
+  @Field(() => String, { description: 'name' })
+  name: string;
+
   @Field(() => ImageEntity, { description: 'image', nullable: true })
   image: ImageEntity;
 }

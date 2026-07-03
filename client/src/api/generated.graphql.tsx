@@ -230,6 +230,8 @@ export type RecordResultEntity = {
   id: Scalars['Int']['output'];
   /** image */
   image?: Maybe<ImageEntity>;
+  /** name */
+  name: Scalars['String']['output'];
 };
 
 export type SortingInput = {
@@ -249,6 +251,7 @@ export type RecordResultFragment = {
   __typename?: 'RecordResultEntity';
   id: number;
   accuracy: number;
+  name: string;
   image?: { __typename?: 'ImageEntity'; id: number; base64: string } | null;
 };
 
@@ -271,6 +274,7 @@ export type ExperimentStepFragment = {
   __typename?: 'ExperimentStepEntity';
   id: number;
   step: number;
+  epochs: number;
   accuracy_delta: number;
   record_accuracy: number;
   validation_accuracy: number;
@@ -297,6 +301,7 @@ export type ExperimentStepFragment = {
     __typename?: 'RecordResultEntity';
     id: number;
     accuracy: number;
+    name: string;
     image?: { __typename?: 'ImageEntity'; id: number; base64: string } | null;
   }> | null;
 };
@@ -333,6 +338,7 @@ export type ExperimentStepQuery = {
     __typename?: 'ExperimentStepEntity';
     id: number;
     step: number;
+    epochs: number;
     accuracy_delta: number;
     record_accuracy: number;
     validation_accuracy: number;
@@ -359,6 +365,7 @@ export type ExperimentStepQuery = {
       __typename?: 'RecordResultEntity';
       id: number;
       accuracy: number;
+      name: string;
       image?: { __typename?: 'ImageEntity'; id: number; base64: string } | null;
     }> | null;
   };
@@ -388,6 +395,7 @@ export type ExperimentFragment = {
     __typename?: 'ExperimentStepEntity';
     id: number;
     step: number;
+    epochs: number;
     accuracy_delta: number;
     record_accuracy: number;
     validation_accuracy: number;
@@ -414,6 +422,7 @@ export type ExperimentFragment = {
       __typename?: 'RecordResultEntity';
       id: number;
       accuracy: number;
+      name: string;
       image?: { __typename?: 'ImageEntity'; id: number; base64: string } | null;
     }> | null;
   };
@@ -452,6 +461,7 @@ export type ExperimentsQuery = {
         __typename?: 'ExperimentStepEntity';
         id: number;
         step: number;
+        epochs: number;
         accuracy_delta: number;
         record_accuracy: number;
         validation_accuracy: number;
@@ -482,6 +492,7 @@ export type ExperimentsQuery = {
           __typename?: 'RecordResultEntity';
           id: number;
           accuracy: number;
+          name: string;
           image?: {
             __typename?: 'ImageEntity';
             id: number;
@@ -523,6 +534,7 @@ export type ExperimentQuery = {
       __typename?: 'ExperimentStepEntity';
       id: number;
       step: number;
+      epochs: number;
       accuracy_delta: number;
       record_accuracy: number;
       validation_accuracy: number;
@@ -553,6 +565,7 @@ export type ExperimentQuery = {
         __typename?: 'RecordResultEntity';
         id: number;
         accuracy: number;
+        name: string;
         image?: {
           __typename?: 'ImageEntity';
           id: number;
@@ -591,6 +604,7 @@ export type BestExperimentQuery = {
       __typename?: 'ExperimentStepEntity';
       id: number;
       step: number;
+      epochs: number;
       accuracy_delta: number;
       record_accuracy: number;
       validation_accuracy: number;
@@ -621,6 +635,7 @@ export type BestExperimentQuery = {
         __typename?: 'RecordResultEntity';
         id: number;
         accuracy: number;
+        name: string;
         image?: {
           __typename?: 'ImageEntity';
           id: number;
@@ -661,6 +676,7 @@ export const RecordResultFragmentDoc = gql`
       ...Image
     }
     accuracy
+    name
   }
   ${ImageFragmentDoc}
 `;
@@ -668,6 +684,7 @@ export const ExperimentStepFragmentDoc = gql`
   fragment ExperimentStep on ExperimentStepEntity {
     id
     step
+    epochs
     accuracy_delta
     record_accuracy
     validation_accuracy

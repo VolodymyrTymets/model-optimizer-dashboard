@@ -25,6 +25,7 @@ export default function ExperimentStepsTable({
           <TableRow className="[&>th]:text-title-50 [&>th]:font-semibold">
             <TableHead scope="col">#</TableHead>
             <TableHead scope="col">Step</TableHead>
+            <TableHead scope="col">Epoch</TableHead>
             <TableHead scope="col">Delta </TableHead>
             <TableHead scope="col">Accuracy </TableHead>
             <TableHead scope="col">Record Accuracy </TableHead>
@@ -46,6 +47,12 @@ export default function ExperimentStepsTable({
                 className="font-medium text-title-50 whitespace-nowrap"
               >
                 {item.step}
+              </TableCell>
+              <TableCell
+                  scope="row"
+                  className="font-medium text-title-50 whitespace-nowrap"
+              >
+                {item.epochs}
               </TableCell>
               <TableCell
                 scope="row"

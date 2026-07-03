@@ -100,6 +100,9 @@ type RecordResultEntity {
   """accuracy"""
   accuracy: Float!
 
+  """name"""
+  name: String!
+
   """image"""
   image: ImageEntity
 }

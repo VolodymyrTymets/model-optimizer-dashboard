@@ -130,10 +130,11 @@ model Image {
 }
 
 model RecordResult {
-  id                 Int   @id @unique @default(autoincrement())
+  id                 Int    @id @unique @default(autoincrement())
   experiment_step_id Int
   image_id           Int
   accuracy           Float
+  name               String
 
   ExperimentStep ExperimentStep @relation(fields: [experiment_step_id], references: [id])
   image          Image          @relation(fields: [image_id], references: [id])

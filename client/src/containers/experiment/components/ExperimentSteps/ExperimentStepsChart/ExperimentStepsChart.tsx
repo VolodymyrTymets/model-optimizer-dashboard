@@ -43,21 +43,21 @@ export default function ExperimentStepsChart({
           <Line
             dataKey="record_accuracy"
             type="monotone"
-            stroke="#3758F9"
+            stroke="#eff542"
             strokeWidth={2}
             dot={false}
           />
           <Line
             dataKey="validation_accuracy"
             type="monotone"
-            stroke="#13C296"
+            stroke="#f5a442"
             strokeWidth={2}
             dot={false}
           />
           <Line
             dataKey="delta_accuracy"
             type="monotone"
-            stroke="#14C496"
+            stroke="#48f542"
             strokeWidth={2}
             dot={false}
           />

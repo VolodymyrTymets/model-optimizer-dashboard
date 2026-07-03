@@ -14,6 +14,7 @@ export const RecordResultFragment = gql`
           ...Image
       }
       accuracy
+      name
       ${ImageFragment}
   }
 `;
@@ -39,6 +40,7 @@ export const ExperimentStepFragment = gql`
   fragment ExperimentStep on ExperimentStepEntity {
     id
     step
+    epochs
     accuracy_delta
     record_accuracy
     validation_accuracy
