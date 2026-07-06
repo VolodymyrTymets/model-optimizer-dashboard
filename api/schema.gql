@@ -246,3 +246,7 @@ input SortingInput {
   """sorting order"""
   order: String!
 }
+
+type Mutation {
+  deleteExperiment(experiment_id: Int!): ExperimentEntity!
+}

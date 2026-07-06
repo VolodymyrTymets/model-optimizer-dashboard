@@ -11,6 +11,7 @@ export default function Experiments() {
         take: 100,
       },
     },
+    fetchPolicy: 'cache-and-network',
   });
   if (loading) return <Loading />;
   if (error) return <Error error={error} />;

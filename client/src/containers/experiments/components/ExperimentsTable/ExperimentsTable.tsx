@@ -6,19 +6,64 @@ import {
   TableRoot,
   TableRow,
 } from '@/components/tailgrids/core/table';
+import { Trash1 } from '@tailgrids/icons';
+import { Button } from '@/components/tailgrids/core/button';
 import { Badge } from '@/components/tailgrids/core/badge';
-import { type ExperimentFragment } from '@/api/generated.graphql.tsx';
+import {
+  type ExperimentFragment,
+  useDeleteExperimentMutation,
+} from '@/api/generated.graphql.tsx';
 import { Link } from '@/components/tailgrids/core/link.tsx';
 import { EXPERIMENT } from '@/routes/routes.ts';
 import { ArrowRight } from '@tailgrids/icons';
+import { Error } from '@/components/Error/Error.tsx';
+import { useCallback } from 'react';
 
 export default function ExperimentsTable({
   experiments,
 }: {
   experiments: ExperimentFragment[];
 }) {
+  const [deleteExperiment, { loading, error }] = useDeleteExperimentMutation();
+  const handleDelete = useCallback(
+    (id: number) => {
+      deleteExperiment({
+        variables: { experiment_id: id },
+        optimisticResponse: { deleteExperiment: { id } },
+        refetchQueries: ['experiments'],
+        update(cache, { data }) {
+          const cacheId = cache.identify({
+            __typename: 'Experiment',
+            id: data.deleteExperiment.id,
+          });
+
+          // 2. Remove the object directly from the cache
+          cache.evict({ id: cacheId });
+          cache.modify({
+            id: 'ROOT_QUERY',
+            fields: {
+              // Match the exact name of your query field
+              experiments(existingRefs, { readField }) {
+                return {
+                  collection: existingRefs.collection.filter(
+                    (ref) => readField('id', ref) !== cacheId,
+                  ),
+                  total: existingRefs.total - 1,
+                };
+              },
+            },
+          });
+
+          // 3. Clear out any now-unreachable references to this item
+          cache.gc();
+        },
+      });
+    },
+    [deleteExperiment],
+  );
   return (
     <>
+      <Error error={error} />
       <TableRoot fullBleed>
         <TableHeader>
           <TableRow className="[&>th]:text-title-50 [&>th]:font-semibold">
@@ -27,6 +72,7 @@ export default function ExperimentsTable({
             <TableHead scope="col">Layers</TableHead>
             <TableHead scope="col">Data Set Details </TableHead>
             <TableHead scope="col"> Ended </TableHead>
+            <TableHead scope="col">Action</TableHead>
             <TableHead scope="col"></TableHead>
           </TableRow>
         </TableHeader>
@@ -75,7 +121,18 @@ export default function ExperimentsTable({
                 </Badge>
               </TableCell>
               <TableCell>
-                {item.endAt && (
+                <Button
+                  iconOnly
+                  size="xs"
+                  variant="danger"
+                  onClick={() => handleDelete(item.id)}
+                  disabled={loading}
+                >
+                  <Trash1 />
+                </Button>
+              </TableCell>
+              <TableCell>
+                {item.bestStep && (
                   <Link
                     variant="primary"
                     size="md"

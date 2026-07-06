@@ -30,3 +30,11 @@ export const BestExperiment = gql`
   }
   ${ExperimentFragment}
 `;
+
+export const DeleteExperiment = gql`
+  mutation DeleteExperiment($experiment_id: Int!) {
+    deleteExperiment(experiment_id: $experiment_id) {
+      id
+    }
+  }
+`;
