@@ -182,6 +182,15 @@ export type ModelSchemaEntity = {
   plot?: Maybe<ImageEntity>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  deleteExperiment: ExperimentEntity;
+};
+
+export type MutationDeleteExperimentArgs = {
+  experiment_id: Scalars['Int']['input'];
+};
+
 export type PaginationInput = {
   /** sorting */
   orderBy?: InputMaybe<Array<SortingInput>>;
@@ -645,6 +654,15 @@ export type BestExperimentQuery = {
       }> | null;
     } | null;
   };
+};
+
+export type DeleteExperimentMutationVariables = Exact<{
+  experiment_id: Scalars['Int']['input'];
+}>;
+
+export type DeleteExperimentMutation = {
+  __typename?: 'Mutation';
+  deleteExperiment: { __typename?: 'ExperimentEntity'; id: number };
 };
 
 export const ImageFragmentDoc = gql`
@@ -1242,4 +1260,54 @@ export type BestExperimentSuspenseQueryHookResult = ReturnType<
 export type BestExperimentQueryResult = Apollo.QueryResult<
   BestExperimentQuery,
   BestExperimentQueryVariables
+>;
+export const DeleteExperimentDocument = gql`
+  mutation DeleteExperiment($experiment_id: Int!) {
+    deleteExperiment(experiment_id: $experiment_id) {
+      id
+    }
+  }
+`;
+export type DeleteExperimentMutationFn = Apollo.MutationFunction<
+  DeleteExperimentMutation,
+  DeleteExperimentMutationVariables
+>;
+
+/**
+ * __useDeleteExperimentMutation__
+ *
+ * To run a mutation, you first call `useDeleteExperimentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteExperimentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteExperimentMutation, { data, loading, error }] = useDeleteExperimentMutation({
+ *   variables: {
+ *      experiment_id: // value for 'experiment_id'
+ *   },
+ * });
+ */
+export function useDeleteExperimentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteExperimentMutation,
+    DeleteExperimentMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteExperimentMutation,
+    DeleteExperimentMutationVariables
+  >(DeleteExperimentDocument, options);
+}
+export type DeleteExperimentMutationHookResult = ReturnType<
+  typeof useDeleteExperimentMutation
+>;
+export type DeleteExperimentMutationResult =
+  Apollo.MutationResult<DeleteExperimentMutation>;
+export type DeleteExperimentMutationOptions = Apollo.BaseMutationOptions<
+  DeleteExperimentMutation,
+  DeleteExperimentMutationVariables
 >;

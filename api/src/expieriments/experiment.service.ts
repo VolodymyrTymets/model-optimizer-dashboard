@@ -4,6 +4,7 @@ import { PaginationService } from '../common/pagination.service';
 import { ExperimentEntity } from './entities/experiment.entity';
 import { PrismaService } from '../prisma/prisma.service';
 import { type GraphQLResolveInfo } from 'graphql/type';
+import { ForbiddenError } from '@nestjs/apollo';
 
 @Injectable()
 export class ExperimentService extends PaginationService {
@@ -86,5 +87,45 @@ export class ExperimentService extends PaginationService {
         },
       },
     });
+  }
+
+  async deleteExperiment(experimentId: number) {
+    const experiment = await this.findExperiment(experimentId);
+    if (!experiment) {
+      throw new ForbiddenError(`Experiment with ID ${experimentId} not found`);
+    }
+    await this.prismaService.$transaction([
+      this.prismaService.experimentDataSetDetails.deleteMany({
+        where: {
+          experiment_id: experimentId,
+        },
+      }),
+      this.prismaService.experimentDetails.deleteMany({
+        where: {
+          experiment_id: experimentId,
+        },
+      }),
+      this.prismaService.modelLayer.deleteMany({
+        where: {
+          experiment_id: experimentId,
+        },
+      }),
+      this.prismaService.modelSchema.deleteMany({
+        where: {
+          experiment_id: experimentId,
+        },
+      }),
+      this.prismaService.experimentStep.deleteMany({
+        where: {
+          experiment_id: experimentId,
+        },
+      }),
+      this.prismaService.experiment.delete({
+        where: {
+          id: experimentId,
+        },
+      }),
+    ]);
+    return experiment;
   }
 }

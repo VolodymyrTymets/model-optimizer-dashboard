@@ -1,7 +1,7 @@
 {
   "__schema": {
     "queryType": { "name": "Query", "kind": "OBJECT" },
-    "mutationType": null,
+    "mutationType": { "name": "Mutation", "kind": "OBJECT" },
     "subscriptionType": null,
     "types": [
       {
@@ -871,6 +871,47 @@
             "description": "plot",
             "args": [],
             "type": { "kind": "OBJECT", "name": "ImageEntity", "ofType": null },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Mutation",
+        "description": null,
+        "isOneOf": null,
+        "fields": [
+          {
+            "name": "deleteExperiment",
+            "description": null,
+            "args": [
+              {
+                "name": "experiment_id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": { "name": "Int", "kind": "SCALAR", "ofType": null }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "name": "ExperimentEntity",
+                "kind": "OBJECT",
+                "ofType": null
+              }
+            },
             "isDeprecated": false,
             "deprecationReason": null
           }

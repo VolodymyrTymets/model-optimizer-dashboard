@@ -1,6 +1,6 @@
 import {
   Args,
-  Int,
+  Int, Mutation,
   Parent,
   Query,
   ResolveField,
@@ -54,6 +54,13 @@ export class ExperimentResolver {
   })
   async bestExperiment() {
     return this.experimentsService.findBestExperiment();
+  }
+
+  @Mutation(() => ExperimentEntity, {})
+  async deleteExperiment(
+    @Args({ name: 'experiment_id', type: () => Int }) experiment_id: number,
+  ) {
+    return this.experimentsService.deleteExperiment(experiment_id);
   }
 
   @ResolveField(() => ExperimentDetailsEntity)
