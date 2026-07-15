@@ -70,9 +70,12 @@ export class ExperimentService extends PaginationService {
       where: {
         experiment_id: experimentId,
       },
-      orderBy: {
-        accuracy_delta: 'desc',
-      },
+      orderBy: [
+        {
+          accuracy_delta: 'desc',
+        },
+        { createdAt: 'asc' },
+      ],
       include: {
         modelSchemas: {
           include: {

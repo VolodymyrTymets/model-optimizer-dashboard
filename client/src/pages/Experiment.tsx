@@ -22,7 +22,7 @@ export default function ExperimentPage() {
       <div className="flex flex-col">
         <Back label="Experiments" />
       </div>
-      <Experiment experiment={data.experiment as ExperimentEntity} />;
+      <Experiment experiment={data.experiment as ExperimentEntity} />
     </div>
   );
 }
